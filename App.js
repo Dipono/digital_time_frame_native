@@ -4,7 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Home from './Screens/Login'
+import Home from './screens/Login'
+import Notification from './screens/Notification'
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -12,12 +13,12 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}>
           {/* Screen Home Page */}
         <Stack.Screen
-          name="home"
-          component={Home}
+          name="Notification"
+          component={Notification}
         />
         {/* More Screens hereW */}
       </Stack.Navigator>
