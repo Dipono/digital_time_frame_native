@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Home from './Screens/Login'
-
+import Home from './screens/Login'
+import UpdateProfile from './screens/UpdateProfile';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -15,11 +15,15 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="home"
           component={Home}
-        />
+        /> */}
         {/* More Screens hereW */}
+        <Stack.Screen
+          name="Update Profile"
+          component={UpdateProfile}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
