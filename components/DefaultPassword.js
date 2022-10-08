@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         height: 34,
         margin:'auto',
         marginTop: 8,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFFFF', 
         borderRadius: 5,
     },
     WarningText: {
