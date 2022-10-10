@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './screens/Login'
 import UpdateProfile from './screens/UpdateProfile';
+import Profile from './screens/Profile';
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -20,9 +22,13 @@ export default function App() {
           component={Home}
         /> */}
         {/* More Screens hereW */}
-        <Stack.Screen
+       {/*  <Stack.Screen
           name="Update Profile"
           component={UpdateProfile}
+        /> */}
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
         />
       </Stack.Navigator>
     </NavigationContainer>
