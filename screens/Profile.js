@@ -1,5 +1,5 @@
-import React,{ useState } from 'react';
-import { Image, Modal,SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Modal, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { AboutUsPopUp, ContactPopUp, LocationsPopUp } from './Modals';
 
@@ -8,16 +8,38 @@ const locationImg = require('../assets/image/location.png')
 const contactImg = require('../assets/image/contact.png')
 const logOutImg = require('../assets/image/account-logout-svgrepo-com.svg')
 const aboutUsImg = require('../assets/image/info.png')
+const forwardIcon = require('../assets/image/skip-track.png')
+const backIcon = require('../assets/image/back.png')
 
-const Profile =()=> {
+const Profile = () => {
 
-    const [isModalVisible,setisModalVisible]=useState(false);
-    const changeModalvisible=(bool)=>{
+    const [isModalVisible, setisModalVisible] = useState(false);
+    const [isModalVisibleContact, setisModalVisibleContact] = useState(false);
+    const [isModalVisibleAboutUs, setisModalVisibleAboutUs] = useState(false);
+    const [chooseData, setchooseData] = useState();
+
+    const changeModalvisible = (bool) => {
         setisModalVisible(bool);
+    }
+    const changeModalvisibleContact = (bool) => {
+        setisModalVisibleContact(bool);
+    }
+    const changeModalvisibleAboutUS = (bool) => {
+        setisModalVisibleAboutUs(bool);
+    }
+
+    const setData = (data) => {
+        setchooseData(data);
     }
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.heading}>Profile</Text>
+
+            <View style={styles.headingView}>
+                <Image source={backIcon} style={styles.backIcon} />
+                <Text style={styles.heading}>Profile</Text>
+
+            </View>
+
             <Image source={profileImg} style={styles.image} />
             <View style={styles.userDetails}>
                 <Text style={styles.name_surname}>Thobile Masilela</Text>
@@ -31,58 +53,70 @@ const Profile =()=> {
             </TouchableOpacity>
             {/* <Text style={styles.line}>-</Text> */}
 
+
             {/* Bottom Div */}
             <View style={styles.bottomDiv}>
+                {/* Locations */}
                 <View style={styles.LocationDiv}>
                     <Image source={locationImg} style={styles.LocationIcon} />
+                    <Text>{chooseData}</Text>
                     <TouchableOpacity
-                    onPress={()=>changeModalvisible(true)}>
-                    <Text style={styles.LocationText}>Locations</Text>
+                        onPress={() => changeModalvisible(true)}>
+                        <Text style={styles.LocationText}>Locations</Text>
                     </TouchableOpacity>
                     <Modal
-                    transparent={true}
-                     animationType='fade'
-                     visible={isModalVisible} 
-                     nRequestClose={()=>changeModalvisible(false)}>
-                        <LocationsPopUp/>
+                        transparent={true}
+                        animationType='fade'
+                        visible={isModalVisible}
+                        onRequestClose={() => changeModalvisible(false)}>
+                        <LocationsPopUp
+                            changeModalVisble={changeModalvisible}
+                            setData={setData}
+                        />
                     </Modal>
-                    <Image />
+                    <Image source={forwardIcon} style={styles.forwardIcon} />
                 </View>
 
-             <View style={styles.ContactDiv}>
+                {/* Contacts */}
+
+                <View style={styles.ContactDiv}>
                     <Image source={contactImg} style={styles.ContactIcon} />
-                    <TouchableOpacity 
-                    onPress={()=>changeModalvisible(true)}>
-                    <Text style={styles.ContactText}>Contacts</Text>
+                    <TouchableOpacity
+                        onPress={() => changeModalvisibleContact(true)}>
+                        <Text style={styles.ContactText}>Contacts</Text>
                     </TouchableOpacity>
                     <Modal
-                    transparent={true}
-                     animationType='fade'
-                     visible={isModalVisible} 
-                     nRequestClose={()=>changeModalvisible(false)}>
-                        <ContactPopUp/>
-                    </Modal>
-                </View>
+                        transparent={true}
+                        animationType='fade'
+                        visible={isModalVisibleContact}
+                        onRequestClose={() => changeModalvisibleContact(false)}>
 
+                        <ContactPopUp />
+                    </Modal>
+                    <Image source={forwardIcon} style={styles.forwardIcon} />
+                </View>
+                {/* About Us Div */}
                 <View style={styles.AboutUsDiv} >
                     <Image source={aboutUsImg} style={styles.AboutUsIcon} />
                     <TouchableOpacity
-                    onPress={()=>changeModalvisible(true)}>
-                    <Text style={styles.AboutUsText}>About Us</Text>
-                    <Modal
-                    transparent={true}
-                     animationType='fade'
-                     visible={isModalVisible} 
-                     nRequestClose={()=>changeModalvisible(false)}>
-                        <AboutUsPopUp/>
-                    </Modal>
+                        onPress={() => changeModalvisibleAboutUS(true)}>
+                        <Text style={styles.AboutUsText}>About Us</Text>
+                        <Modal
+                            transparent={true}
+                            animationType='fade'
+                            visible={isModalVisibleAboutUs}
+                            nRequestClose={() => changeModalvisibleAboutUS(false)}>
+                            <AboutUsPopUp />
+                        </Modal>
+                        <Image source={forwardIcon} style={styles.forwardIcon} />
                     </TouchableOpacity>
-                   
+
                 </View>
                 <View style={styles.LogOutDiv}>
                     <Image source={logOutImg} style={styles.LogOutIcon} />
                     <Text style={styles.LogOutText}>Log Out</Text>
-                </View> 
+                    <Image source={forwardIcon} style={styles.forwardIcon} />
+                </View>
 
 
             </View>
@@ -96,88 +130,89 @@ const styles = StyleSheet.create({
         backgroundColor: '#E7E7E7',
         textAlign: 'center',
     },
-    heading: {
-
+    headingView: {
+        flexDirection: 'row',
         marginTop: 30,
-
+    },
+    heading: {
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 20,
+
+    },
+    backIcon: {
+        width: 25,
+        height: 20,
+        marginLeft: '2%',
     },
     image: {
         width: 140,
         height: 140,
-        margin: 'auto',
+        alignSelf: 'center',
         marginTop: 20,
         borderRadius: 100,
     },
     userDetails: {
-        marginTop: -140
+        alignSelf: 'center',
+        marginTop:10,
+
     },
     name_surname: {
         width: 154,
         height: 26,
-        marginTop: -140,
-        margin: 'auto',
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
         fontWeight: 700,
         fontSize: 20,
         lineHeight: 26,
-
-        textAlign: 'center',
+        alignSelf:'center',
     },
     position: {
         width: 331,
         height: 27,
-        margin: 'auto',
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 20,
         lineHeight: 27,
-        textAlign: 'center',
+        alignSelf:'center',
     },
     location: {
         width: 117,
         height: 20,
-        margin: 'auto',
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        textAlign: 'center',
+        alignSelf:'center',
     },
     emailAdress: {
         width: 200,
         height: 20,
-        margin: 'auto',
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        textAlign: 'center',
+        alignSelf:'center',
     },
     phoneNumber: {
         width: 100,
         height: 20,
-        margin: 'auto',
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        textAlign: 'center',
+        alignSelf:'center',
     },
     editProfileButton: {
         width: 153,
         height: 39,
-        margin: 'auto',
         marginTop: 30,
-
+        alignSelf: 'center',
         backgroundColor: '#308989',
         shadowColor: 'rgba(0, 0, 0, 0.25)',
         shadowOpercity: 4,
@@ -188,14 +223,13 @@ const styles = StyleSheet.create({
     editProfileText: {
         width: 122,
         height: 21,
-        margin: 'auto',
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 18,
         lineHeight: 21,
         textAlign: 'center',
-
+        margin:'auto',
         color: '#FFFFFF'
     },
     line: {
@@ -204,27 +238,28 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0, 0, 0, 0.4)',
         borderStyle: 'solid',
     },
-    bottomDiv:{
-        marginLeft:'10%',
-        
+    bottomDiv: {
+        marginLeft: '8%',
+        marginTop: 80
+
     },
     LocationDiv: {
         flexDirection: 'row',
-        marginTop:-220,
-       
+        marginTop: 10
+
     },
     ContactDiv: {
         flexDirection: 'row',
-        marginTop:5,
+        marginTop: 5,
     },
     AboutUsDiv: {
         flexDirection: 'row',
-        marginTop:5,
+        marginTop: 5,
     },
     LogOutDiv: {
-        marginTop:5,
+        marginTop: 5,
         flexDirection: 'row',
-      
+
     },
     LocationIcon: {
         width: 19,
@@ -297,6 +332,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
 
         color: 'rgba(0, 0, 0, 0.8)',
+    },
+    forwardIcon: {
+        width: 15,
+        height: 10,
+        marginLeft: 120,
     },
 
 })
