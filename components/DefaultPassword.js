@@ -1,10 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+const img = require('../assets/image/back.png');
 export default function DefaultPassowrd() {
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.Header}>Change Password</Text>
+            <View source={img} style={styles.headingView} >
+                <Image source={img} style={styles.image} />
+                <Text style={styles.Header}>Change Password</Text>
+            </View>
+
 
 
             <View >
@@ -31,16 +36,25 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#E7E7E7',
         textAlign: 'center',
-        paddingBottom:1000
+        paddingBottom: 1000
     },
     Header: {
-        marginTop: 48,
 
+        margin: 'auto',
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 20,
 
+    },
+    image: {
+        width: 25,
+        height: 20,
+    }
+    , headingView: {
+        flexDirection: 'row',
+        marginTop:40,
+        marginLeft:'3%'
     },
     newPasswordText: {
         marginTop: '25%',
@@ -67,21 +81,21 @@ const styles = StyleSheet.create({
         marginTop: 8,
         backgroundColor: '#FFFFFF',
         borderRadius: 5,
-        margin:'auto'
+        margin: 'auto'
     },
     confirmPasswordInput: {
         width: 313,
         height: 34,
-        margin:'auto',
+        margin: 'auto',
         marginTop: 8,
-        backgroundColor: '#FFFFFF', 
+        backgroundColor: '#FFFFFF',
         borderRadius: 5,
     },
     WarningText: {
-        width:  254,
+        width: 254,
         height: 64,
         margin: 'auto',
-      marginTop:25,
+        marginTop: 25,
 
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
@@ -90,10 +104,10 @@ const styles = StyleSheet.create({
         lineHeight: 24,
     },
     changeButton: {
-         width: 133,
-         height: 54,
-         margin: 'auto',
-         marginTop:30,
+        width: 133,
+        height: 54,
+        margin: 'auto',
+        marginTop: 45,
 
         backgroundColor: '#308989',
         borderRadius: 20,
@@ -104,8 +118,8 @@ const styles = StyleSheet.create({
         fontWeight: 400,
         fontSize: 24,
         lineHeight: 29,
-margin:'auto',
+        margin: 'auto',
         color: '#FFFFFF',
-    }
-
+    },
+    
 });
