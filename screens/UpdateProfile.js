@@ -1,14 +1,20 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 const img = require('../assets/image/undraw_wall_post_re_y78d (1).svg')
+const backImg = require('../assets/image/back.png')
 function UpdateProfile() {
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.heading}>Update Profile</Text>
+            <View style={styles.headingView}>
+                <Image style={styles.backImage} source={backImg} />
+                <Text style={styles.heading}>Update Profile</Text>
+
+            </View>
+
             <Image style={styles.image} source={img} />
 
-                <Text style={styles.message}>You are adviced to change your profile or you can skip and update later</Text>
-            
+            <Text style={styles.message}>You are adviced to change your profile or you can skip and update later</Text>
+
             <TouchableOpacity style={styles.updateButton}>
                 <Text style={styles.updateButtonText}>Update</Text>
             </TouchableOpacity>
@@ -25,25 +31,34 @@ const styles = StyleSheet.create({
         backgroundColor: '#E7E7E7',
         textAlign: 'center',
     },
+    headingView: {
+        flexDirection: 'row',
+        marginTop: 30,
+    },
     heading: {
-       
-       marginTop:20,
-
+        margin: 'auto',
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
         fontWeight: 400,
         fontSize: 20,
     },
+    backImage: {
+        width: 25,
+        height: 20,
+        marginLeft: '3%',
+
+    },
     image: {
-        width: '100%',
-        height: '50%',
-        marginTop:10,
-      
+        margin: 'auto',
+        width: 352,
+        height: 351,
+        resizeMode: 'contain',
+        marginTop: -5,
     },
     message: {
-         width: 255,
-      margin:'auto',
-
+        width: 255,
+        margin: 'auto',
+        marginTop: -12,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
         fontWeight: 400,
@@ -51,7 +66,7 @@ const styles = StyleSheet.create({
 
     },
     updateButtonText: {
-        
+
         margin: 'auto',
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
@@ -64,14 +79,14 @@ const styles = StyleSheet.create({
     updateButton: {
         width: 133,
         height: 54,
-       /*  marginBottom:120, */
-       margin: 'auto',
+        /*  marginBottom:120, */
+        margin: 'auto',
         backgroundColor: '#308989',
         borderRadius: 20,
     },
     skipText: {
-        marginBottom:120,
-        margin:'auto',
+        marginBottom: 120,
+        margin: 'auto',
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
         fontWeight: 400,
