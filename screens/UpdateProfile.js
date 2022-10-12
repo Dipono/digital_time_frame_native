@@ -33,65 +33,65 @@ const styles = StyleSheet.create({
     },
     headingView: {
         flexDirection: 'row',
-        marginTop: 30,
+        marginTop: 60,
     },
     heading: {
-        margin: 'auto',
-        fontFamily: 'Emblema One',
+        
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 20,
+        marginLeft:80,
     },
     backImage: {
         width: 25,
         height: 20,
         marginLeft: '3%',
+        marginTop:5,
 
     },
     image: {
-        margin: 'auto',
+       
         width: 352,
         height: 351,
         resizeMode: 'contain',
-        marginTop: -5,
     },
     message: {
         width: 255,
-        margin: 'auto',
-        marginTop: -12,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 16,
+        alignSelf:'center',
 
     },
     updateButtonText: {
 
-        margin: 'auto',
-        fontFamily: 'Emblema One',
+        alignSelf:'center',
+       /*  fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 24,
         lineHeight: 29,
-
+marginTop:10,
         color: '#FFFFFF',
     },
     updateButton: {
         width: 133,
         height: 54,
-        /*  marginBottom:120, */
-        margin: 'auto',
+        alignSelf:'center',
         backgroundColor: '#308989',
         borderRadius: 20,
+        marginTop:10,
     },
     skipText: {
-        marginBottom: 120,
-        margin: 'auto',
-        fontFamily: 'Emblema One',
+        alignSelf:'center',
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 24,
         lineHeight: 29,
+        marginTop:10,
     }
 })
 
