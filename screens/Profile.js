@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Image, Modal, Dimensions, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const profileImg = require('../assets/image/images.png')
+const profileImg = require("../assets/image/solo-leveling-sung-jin-woo-manga-anime-boys-hd-wallpaper-preview.jpg")
 const locationImg = require('../assets/image/location.png')
 const contactImg = require('../assets/image/contact.png')
-const logOutImg = require('../assets/image/account-logout-svgrepo-com.svg')
+const logOutImg = require('../assets/image/exit-icon-3.png')
 const aboutUsImg = require('../assets/image/info.png')
 const forwardIcon = require('../assets/image/skip-track.png')
 const backIcon = require('../assets/image/back.png')
