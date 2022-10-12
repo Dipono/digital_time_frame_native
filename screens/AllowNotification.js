@@ -1,6 +1,6 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-const img = require('../assets/image/undraw_my_notifications_re_ehmk.svg')
+const img = require('../assets/image/notification.png')
 const backImg = require('../assets/image/back.png')
 function AllowNotification() {
     return (
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     message: {
         width: 255,
         alignSelf: 'center',
-        marginTop: -30,
+       
         /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
