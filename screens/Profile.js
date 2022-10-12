@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Modal, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-
-import { AboutUsPopUp, ContactPopUp, LocationsPopUp } from './Modals';
+import { Image, Modal, Dimensions, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 const profileImg = require('../assets/image/images (1).jpg')
 const locationImg = require('../assets/image/location.png')
@@ -11,27 +9,15 @@ const aboutUsImg = require('../assets/image/info.png')
 const forwardIcon = require('../assets/image/skip-track.png')
 const backIcon = require('../assets/image/back.png')
 
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT_MODAL = 200;
+
 const Profile = () => {
 
     const [isModalVisible, setisModalVisible] = useState(false);
     const [isModalVisibleContact, setisModalVisibleContact] = useState(false);
     const [isModalVisibleAboutUs, setisModalVisibleAboutUs] = useState(false);
 
-    const [chooseData, setchooseData] = useState();
-
-    const changeModalvisible = (bool) => {
-        setisModalVisible(bool);
-    }
-    const changeModalvisibleContact = (bool) => {
-        setisModalVisibleContact(bool);
-    }
-    const changeModalvisibleAboutUS = (bool) => {
-        setisModalVisibleAboutUs(bool);
-    }
-
-    const setData = (data) => {
-        setchooseData(data);
-    }
     return (
         <SafeAreaView style={styles.container}>
 
@@ -56,69 +42,139 @@ const Profile = () => {
             <TouchableOpacity style={styles.editProfileButton}>
                 <Text style={styles.editProfileText}>Edit Profile</Text>
             </TouchableOpacity>
-            {/* <Text style={styles.line}>-</Text> */}
+
+<View style = {styles.line}/>
+
 
 
             {/* Bottom Div */}
             <View style={styles.bottomDiv}>
 
                 {/* Locations */}
-                <View style={styles.LocationDiv}>
-                    <Image source={locationImg} style={styles.LocationIcon} />
-                    <Text>{chooseData}</Text>
-                    <TouchableOpacity
-                        onPress={() => changeModalvisible(true)}>
-                        <Text style={styles.LocationText}>Locations</Text>
-                    </TouchableOpacity>
-                    <Modal
-                        transparent={true}
-                        animationType='fade'
-                        visible={isModalVisible}
-                        onRequestClose={() => changeModalvisible(false)}>
-                        <LocationsPopUp
-                            changeModalVisble={changeModalvisible}
-                            setData={setData}
-                        />
-                    </Modal>
-                    <Image source={forwardIcon} style={styles.forwardIcon} />
-                </View>
 
+                <View style={styles.LocationDiv}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isModalVisible}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            setisModalVisible(!isModalVisible);
+                        }}
+                    >
+                        <View style={styles.modal}>
+                            <View style={styles.textView}>
+                                <Text style={styles.textHeader}>Our Locations</Text>
+                                <Text style={styles.text}>Tembisa</Text>
+                                <Text style={styles.text}>Tshwane</Text>
+                                <Text style={styles.text}>Kimberly</Text>
+                                <Text style={styles.text}>Soweto</Text>
+                                <Text style={styles.text}>Polokwane</Text>
+                                <TouchableOpacity
+                                    style={[styles.button, styles.buttonOK]}
+                                    onPress={() => setisModalVisible(!isModalVisible)}
+                                >
+                                    <Text style={styles.buttonText}>Ok</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
+                    <Image source={locationImg} style={styles.LocationIcon} />
+                    <TouchableOpacity
+                        style={[styles.button, styles.buttonOpen]}
+                        onPress={() => setisModalVisible(true)}
+                    >
+
+                        <Text style={styles.LocationText}>Location</Text>
+                    </TouchableOpacity>
+                    <Image source={forwardIcon} style={styles.forwardIcon} />
+
+
+                </View>
                 {/* Contacts */}
 
                 <View style={styles.ContactDiv}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isModalVisibleContact}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            setisModalVisibleContact(!isModalVisibleContact);
+                        }}
+                    >
+                        <View style={styles.modal}>
+                            <View style={styles.textView}>
+                                <Text style={styles.textHeader}>If you need any help please contact us</Text>
+                                <Text style={styles.text}>Admin Number:072 568 5689</Text>
+                                <Text style={styles.text}>Admin Email:aneleyuy@mlab.ac.za</Text>
+                                <Text style={styles.text}>Company email:mlab@mlab.ac.za</Text>
+                                <TouchableOpacity
+                                    style={styles.buttonOK}
+                                    onPress={() => setisModalVisibleContact(!isModalVisibleContact)}
+                                >
+                                    <Text style={styles.buttonText}>Ok</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
                     <Image source={contactImg} style={styles.ContactIcon} />
                     <TouchableOpacity
-                        onPress={() => changeModalvisibleContact(true)}>
+                        onPress={() => setisModalVisibleContact(true)}
+                    >
+
                         <Text style={styles.ContactText}>Contacts</Text>
                     </TouchableOpacity>
-                    <Modal
-                        transparent={true}
-                        animationType='fade'
-                        visible={isModalVisibleContact}
-                        onRequestClose={() => changeModalvisibleContact(false)}>
-
-                        <ContactPopUp />
-                    </Modal>
                     <Image source={forwardIcon} style={styles.forwardIcon} />
+
+
                 </View>
 
-                {/* About Us Div */}
-                <View style={styles.AboutUsDiv} >
+                {/* About Us */}
+
+                <View style={styles.AboutUsDiv}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isModalVisibleAboutUs}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            setisModalVisibleAboutUs(!isModalVisibleAboutUs);
+                        }}
+                    >
+                        <View style={styles.modal}>
+                            <View style={styles.textView}>
+                            <Text style={styles.textHeader}>about Us</Text>
+                    <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum pharetra magna quis tempor. Nunc orci dolor, bibendum id elementum sed, consequat ac nisi. Integer facilisis libero luctus urna rhoncus, sollicitudin tempus leo ornare.</Text>
+                                <TouchableOpacity
+                                    style={styles.buttonOK}
+                                    onPress={() => setisModalVisibleAboutUs(!isModalVisibleAboutUs)}
+                                >
+                                    <Text style={styles.buttonText}>Ok</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
                     <Image source={aboutUsImg} style={styles.AboutUsIcon} />
                     <TouchableOpacity
-                        onPress={() => changeModalvisibleAboutUS(true)}>
+                        onPress={() => setisModalVisibleAboutUs(true)}
+                    >
+
                         <Text style={styles.AboutUsText}>About Us</Text>
-                        <Modal
-                            transparent={true}
-                            animationType='fade'
-                            visible={isModalVisibleAboutUs}
-                            nRequestClose={() => changeModalvisibleAboutUS(false)}>
-                            <AboutUsPopUp />
-                        </Modal>
-                        <Image source={forwardIcon} style={[styles.forwardIcon,{marginLeft:220,marginTop:-20}]} />
                     </TouchableOpacity>
+                    <Image source={forwardIcon} style={styles.forwardIcon} />
+
 
                 </View>
+
+
+
+
+                {/* About Us Div */}
+               
                 <View style={styles.LogOutDiv}>
                     <Image source={logOutImg} style={styles.LogOutIcon} />
                     <Text style={styles.LogOutText}>Log Out</Text>
@@ -127,7 +183,7 @@ const Profile = () => {
 
 
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 
 }
@@ -139,15 +195,18 @@ const styles = StyleSheet.create({
     },
     headingView: {
         flexDirection: 'row',
-        marginTop: 30,
+        marginTop: 45,
+
     },
     heading: {
-        fontFamily: 'Emblema One',
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 20,
-        margin:'auto'
-
+        textAlign: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginLeft: '25%',
     },
     backIcon: {
         width: 25,
@@ -163,13 +222,14 @@ const styles = StyleSheet.create({
     },
     userDetails: {
         alignSelf: 'center',
+        textAlign: 'center',
         marginTop: 10,
 
     },
     name_surname: {
         width: 154,
         height: 26,
-        fontFamily: 'Ebrima',
+        /*  fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 20,
@@ -179,12 +239,14 @@ const styles = StyleSheet.create({
     position: {
         width: 331,
         height: 27,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 20,
         lineHeight: 27,
         alignSelf: 'center',
+        textAlign: 'center',
+
     },
     locateView: {
         flexDirection: 'row',
@@ -197,17 +259,17 @@ const styles = StyleSheet.create({
     location: {
         width: 117,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        
+
     },
     emailAdress: {
         width: 200,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 15,
@@ -217,7 +279,7 @@ const styles = StyleSheet.create({
     phoneNumber: {
         width: 100,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 15,
@@ -239,24 +301,26 @@ const styles = StyleSheet.create({
     editProfileText: {
         width: 122,
         height: 21,
-        fontFamily: 'Emblema One',
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 18,
         lineHeight: 21,
+        alignSelf: 'center',
         textAlign: 'center',
-        margin: 'auto',
+        marginTop: 10,
         color: '#FFFFFF'
     },
     line: {
         width: 331,
-        height: 0,
-        borderColor: 'rgba(0, 0, 0, 0.4)',
-        borderStyle: 'solid',
+        borderWidth: 0.5,
+        borderColor:'rgba(0, 0, 0, 0.4)',
+      marginTop:30,
+      alignSelf:'center',
     },
     bottomDiv: {
         marginLeft: '8%',
-        marginTop: 80
+        marginTop: 40
 
     },
     LocationDiv: {
@@ -286,7 +350,7 @@ const styles = StyleSheet.create({
     LocationText: {
         width: 100,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
@@ -304,11 +368,12 @@ const styles = StyleSheet.create({
     ContactText: {
         width: 100,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
+        textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.8)',
     },
     AboutUsIcon: {
@@ -320,11 +385,12 @@ const styles = StyleSheet.create({
     AboutUsText: {
         width: 100,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
+        textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.8)',
     },
     LogOutIcon: {
@@ -336,11 +402,12 @@ const styles = StyleSheet.create({
     LogOutText: {
         width: 100,
         height: 20,
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
+        textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.8)',
     },
     forwardIcon: {
@@ -348,7 +415,50 @@ const styles = StyleSheet.create({
         height: 10,
         marginLeft: 120,
     },
+    modal: {
+        height: HEIGHT_MODAL,
+        width: WIDTH - 80,
+        paddingTop: 10,
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        shadowOpercity: 4,
+        shadowOffset: { width: 0, height: 5 },
+        paddingBottom: 20,
+        marginTop: 235,
+    },
+    buttonOK: {
+        marginLeft: 210,
+        marginTop: 5
+    },
+    textView: {
 
+
+    },
+    buttonText: {
+        /* fontFamily: 'Ebrima', */
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 20,
+    },
+    textHeader: {
+        /*  fontFamily: 'Ebrima', */
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 20,
+        lineHeight: 26,
+        alignSelf: 'center',
+    },
+    text: {
+        /*  fontFamily: 'Ebrima', */
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: 15,
+        lineHeight: 20,
+        alignSelf: 'center',
+        marginTop: 5
+    }
 })
 
 export default Profile;
