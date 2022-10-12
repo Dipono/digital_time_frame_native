@@ -15,11 +15,17 @@ export default function DefaultPassword() {
 
             <View style={styles.newPassword}>
                 <Text style={styles.text}>New Password:</Text>
-                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}
+                placeholder={"***********"}
+                placeholdeTextColor={"rgba(255,255,255,0.7)"}
+                underlineColorAndroid="transparent"/>
             </View>
             <View style={styles.confirmPassword}>
                 <Text style={styles.text}>Confirm Password:</Text>
-                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input}
+                  placeholder={"***********"}
+                  placeholdeTextColor={"rgba(255,255,255,0.7)"}
+                  underlineColorAndroid="transparent"/>
             </View>
             <Text style={styles.message}>Please change your default passwod for security</Text>
 
@@ -68,8 +74,8 @@ const styles = StyleSheet.create({
     input: {
         width: 300,
         height: 34,
-        boarderColor: 'black',
-        background: '#FFFFFF',
+        
+        backgroundColor: '#FFFFFF',
         borderRadius: 5,
         padding: 10,
         marginLeft: -10,
