@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width: WIDTH - 55,
+    width:  265,
     height: 44,
-    borderRadius: 5,
+    borderRadius: 10,
     fontSize: 20,
     paddingLeft: 10,
     backgroundColor: "#FFFFFF",
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   btnLogin: {
-    width: WIDTH - 55,
+    width:  155,
     height: 54,
     borderRadius: 5,
     fontSize: 16,
