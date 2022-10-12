@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Modal, Dimensions, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const profileImg = require('../assets/image/images (1).jpg')
+const profileImg = require('../assets/image/images.png')
 const locationImg = require('../assets/image/location.png')
 const contactImg = require('../assets/image/contact.png')
 const logOutImg = require('../assets/image/account-logout-svgrepo-com.svg')
