@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './screens/Login'
-
+import DefaultPassword from './screens/DefaultPassword';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -15,11 +15,15 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
-        <Stack.Screen
+       {/*  <Stack.Screen
           name="home"
           component={Home}
-        />
+        /> */}
         {/* More Screens hereW */}
+        <Stack.Screen
+          name="DefaultPassword"
+          component={DefaultPassword}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
