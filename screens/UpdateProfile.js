@@ -1,6 +1,6 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-const img = require('../assets/image/undraw_wall_post_re_y78d (1).svg')
+const img = require('../assets/image/wall.png')
 const backImg = require('../assets/image/back.png')
 function UpdateProfile() {
     return (
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         width: 352,
         height: 351,
         resizeMode: 'contain',
+        alignSelf:'center'
     },
     message: {
         width: 255,
