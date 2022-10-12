@@ -16,6 +16,7 @@ const Profile = () => {
     const [isModalVisible, setisModalVisible] = useState(false);
     const [isModalVisibleContact, setisModalVisibleContact] = useState(false);
     const [isModalVisibleAboutUs, setisModalVisibleAboutUs] = useState(false);
+
     const [chooseData, setchooseData] = useState();
 
     const changeModalvisible = (bool) => {
@@ -44,7 +45,11 @@ const Profile = () => {
             <View style={styles.userDetails}>
                 <Text style={styles.name_surname}>Thobile Masilela</Text>
                 <Text style={styles.position}>Software Development Intern</Text>
-                <Text style={styles.location}>Lynwood Pretoria</Text>
+                <View style={styles.locateView} >
+                    <Image source={locationImg} style={styles.locationImage} />
+                    <Text style={styles.location}>Lynwood Pretoria</Text>
+                </View>
+
                 <Text style={styles.emailAdress}>preciousthobile@gmail.com</Text>
                 <Text style={styles.phoneNumber} >076 1290 995</Text>
             </View>
@@ -56,6 +61,7 @@ const Profile = () => {
 
             {/* Bottom Div */}
             <View style={styles.bottomDiv}>
+
                 {/* Locations */}
                 <View style={styles.LocationDiv}>
                     <Image source={locationImg} style={styles.LocationIcon} />
@@ -95,6 +101,7 @@ const Profile = () => {
                     </Modal>
                     <Image source={forwardIcon} style={styles.forwardIcon} />
                 </View>
+
                 {/* About Us Div */}
                 <View style={styles.AboutUsDiv} >
                     <Image source={aboutUsImg} style={styles.AboutUsIcon} />
@@ -108,7 +115,7 @@ const Profile = () => {
                             nRequestClose={() => changeModalvisibleAboutUS(false)}>
                             <AboutUsPopUp />
                         </Modal>
-                        <Image source={forwardIcon} style={styles.forwardIcon} />
+                        <Image source={forwardIcon} style={[styles.forwardIcon,{marginLeft:220,marginTop:-20}]} />
                     </TouchableOpacity>
 
                 </View>
@@ -137,8 +144,9 @@ const styles = StyleSheet.create({
     heading: {
         fontFamily: 'Emblema One',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 20,
+        margin:'auto'
 
     },
     backIcon: {
@@ -155,7 +163,7 @@ const styles = StyleSheet.create({
     },
     userDetails: {
         alignSelf: 'center',
-        marginTop:10,
+        marginTop: 10,
 
     },
     name_surname: {
@@ -163,20 +171,28 @@ const styles = StyleSheet.create({
         height: 26,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: '700',
         fontSize: 20,
         lineHeight: 26,
-        alignSelf:'center',
+        alignSelf: 'center',
     },
     position: {
         width: 331,
         height: 27,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 20,
         lineHeight: 27,
-        alignSelf:'center',
+        alignSelf: 'center',
+    },
+    locateView: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+    },
+    locationImage: {
+        width: 19,
+        height: 19,
     },
     location: {
         width: 117,
@@ -186,7 +202,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        alignSelf:'center',
+        
     },
     emailAdress: {
         width: 200,
@@ -196,7 +212,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        alignSelf:'center',
+        alignSelf: 'center',
     },
     phoneNumber: {
         width: 100,
@@ -206,7 +222,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: 15,
         lineHeight: 20,
-        alignSelf:'center',
+        alignSelf: 'center',
     },
     editProfileButton: {
         width: 153,
@@ -229,7 +245,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         lineHeight: 21,
         textAlign: 'center',
-        margin:'auto',
+        margin: 'auto',
         color: '#FFFFFF'
     },
     line: {
@@ -272,7 +288,7 @@ const styles = StyleSheet.create({
         height: 20,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
         textAlign: 'center',
@@ -290,11 +306,9 @@ const styles = StyleSheet.create({
         height: 20,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
-        textAlign: 'center',
-
         color: 'rgba(0, 0, 0, 0.8)',
     },
     AboutUsIcon: {
@@ -308,11 +322,9 @@ const styles = StyleSheet.create({
         height: 20,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
-        textAlign: 'center',
-
         color: 'rgba(0, 0, 0, 0.8)',
     },
     LogOutIcon: {
@@ -326,11 +338,9 @@ const styles = StyleSheet.create({
         height: 20,
         fontFamily: 'Ebrima',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
-        textAlign: 'center',
-
         color: 'rgba(0, 0, 0, 0.8)',
     },
     forwardIcon: {
