@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './screens/Login'
+import EditAccount from './screens/EditAccount';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -15,11 +16,15 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
-        <Stack.Screen
+       {/*  <Stack.Screen
           name="home"
           component={Home}
-        />
+        /> */}
         {/* More Screens hereW */}
+        <Stack.Screen
+          name="EditAccount"
+          component={EditAccount}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
