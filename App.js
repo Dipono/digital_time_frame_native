@@ -23,9 +23,11 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
-        
+          <Stack.Screen
+          name="login"
+          component={Login}
+        />
         {/* More Screens hereW */}
-        
         
         <Stack.Screen
           name="homePage"

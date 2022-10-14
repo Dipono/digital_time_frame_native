@@ -39,7 +39,10 @@ export default function Home() {
         />
         <Text style={styles.welcomeText}>Welcome to DTF </Text>
         <Text style={styles.name}>Thobile Masilela </Text>
-        <Image source={logout} style={styles.logOut} />
+        <TouchableOpacity onPress={() => navigation.navigate('login')}>
+          <Image source={logout} style={styles.logOut} />
+        </TouchableOpacity>
+
       </View>
       <View
         style={{
@@ -66,14 +69,17 @@ export default function Home() {
           <View style={styles.circle5}>
             <Text style={styles.innerLetter}>F</Text>
           </View>
-          <ImageBackground source={blueImage} style={styles.AvarageImage}>
+          <TouchableOpacity onPress={() => navigation.navigate('logs')}>
+            <ImageBackground source={blueImage} style={styles.AvarageImage}>
 
-            <Text style={styles.averageText}>Average attendance</Text>
-            <Text style={styles.AttendanceText}>50%</Text>
-            <Text style={styles.monthText}>This month</Text>
-            <Image source={process} style={styles.avarageImage} />
+              <Text style={styles.averageText}>Average attendance</Text>
+              <Text style={styles.AttendanceText}>50%</Text>
+              <Text style={styles.monthText}>This month</Text>
+              <Image source={process} style={styles.avarageImage} />
 
-          </ImageBackground>
+            </ImageBackground>
+          </TouchableOpacity>
+
           {/* schedule */}
 
 
@@ -90,16 +96,16 @@ export default function Home() {
           </View>
 
           {/*profile*/}
-            <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-              <ImageBackground source={orangeImage} style={styles.profile} >
-                <Text style={styles.proflieText}>Profile</Text>
-                <Text style={styles.nameText}>name:Precious</Text>
-                <Text style={styles.emailText}>Email:preciou@gmail.com</Text>
-                <Text style={styles.contactText}>contact:0123828669</Text>
-                <Text style={styles.moreText}>more..</Text>
-                <Image source={profile} style={styles.profileImage} />
-              </ImageBackground>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+            <ImageBackground source={orangeImage} style={styles.profile} >
+              <Text style={styles.proflieText}>Profile</Text>
+              <Text style={styles.nameText}>name:Precious</Text>
+              <Text style={styles.emailText}>Email:preciou@gmail.com</Text>
+              <Text style={styles.contactText}>contact:0123828669</Text>
+              <Text style={styles.moreText}>more..</Text>
+              <Image source={profile} style={styles.profileImage} />
+            </ImageBackground>
+          </TouchableOpacity>
 
           {/*Notifications*/}
           <TouchableOpacity onPress={() => navigation.navigate('notification')}>

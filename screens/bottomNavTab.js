@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import * as Icon from "react-native-feather";
 import {
   View,Text,StyleSheet,Image,TouchableOpacity,ImageBackground,
 } from 'react-native';
@@ -16,19 +15,19 @@ export default  function bottomNavTab(){
       <View style={styles.container}>
          <ImageBackground source={bgImage} style={styles.image}>
            
-        <TouchableOpacity style={styles.homeIconContainer}>
+        <TouchableOpacity style={styles.homeIconContainer} onPress={() => navigation.navigate('homePage')}>
             <Image source={homeIcon} style={styles.homIcon}/>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity >
             <Image source={AccounIcon} style={styles.homIcon}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate('clockin')}>
             <Text style={styles.clockIn}>Clock In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.homeIconContainer}>
+        <TouchableOpacity style={styles.homeIconContainer} onPress={() => navigation.navigate('logs')}>
             <Image source={Logs} style={styles.homIcon}/>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('notifaction')}>
             <Image source={notification} style={styles.homIcon}/>
         </TouchableOpacity>
         

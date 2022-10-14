@@ -8,7 +8,11 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+
 function Home() {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -32,7 +36,7 @@ function Home() {
           underlineColorAndroid="transparent"
         />
       </View>
-      <TouchableOpacity style={styles.btnLogin}>
+      <TouchableOpacity style={styles.btnLogin} onPress={() => navigation.navigate('homePage')}>
         <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
       <Text style={styles.totTexts}>

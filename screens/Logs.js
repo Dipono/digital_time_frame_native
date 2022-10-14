@@ -82,9 +82,7 @@ export default function Logs() {
                   <DaysInfo name={Days.name} />
                   <View style={styles.circle3} />
                 </ImageBackground>
-
               </View>
-
             )}
           </TouchableOpacity>
         </View>
