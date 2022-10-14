@@ -1,8 +1,9 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { useNavigation } from "@react-navigation/native";
 const img = require('../assets/image/notification.png')
 const backImg = require('../assets/image/back.png')
 function AllowNotification() {
+    const navigation = useNavigation();
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headingView}>
@@ -17,11 +18,11 @@ function AllowNotification() {
                 <Text>App requirements Permission to send notifications</Text>
             </View>
 
-            <TouchableOpacity style={styles.allowButton}>
+            <TouchableOpacity style={styles.allowButton} onPress={() => navigation.navigate('notification')}>
                 <Text style={styles.allowButtonText}>Allow</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.skipButton}>
+            <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('notification')}>
                 <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
 

@@ -18,7 +18,7 @@ export default  function bottomNavTab(){
         <TouchableOpacity style={styles.homeIconContainer} onPress={() => navigation.navigate('homePage')}>
             <Image source={homeIcon} style={styles.homIcon}/>
         </TouchableOpacity>
-        <TouchableOpacity >
+        <TouchableOpacity  onPress={() => navigation.navigate('profile')}>
             <Image source={AccounIcon} style={styles.homIcon}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate('clockin')}>

@@ -13,6 +13,8 @@ import QRCode from './screens/QRCode';
 import HomePage from './screens/homePage';
 import Logs from './screens/Logs'
 import ClockIn from './screens/Clock'
+import AllowNotification from './screens/AllowNotification'
+
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -23,6 +25,8 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
+          
+
           <Stack.Screen
           name="login"
           component={Login}
@@ -48,6 +52,10 @@ export default function App() {
         <Stack.Screen
           name="notification"
           component={Notification}
+        />
+        <Stack.Screen
+          name="allowNotification"
+          component={AllowNotification}
         />
         <Stack.Screen
           name="qrCode"
