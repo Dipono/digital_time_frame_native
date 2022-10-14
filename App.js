@@ -14,7 +14,7 @@ import HomePage from './screens/homePage';
 import Logs from './screens/Logs'
 import ClockIn from './screens/Clock'
 import AllowNotification from './screens/AllowNotification'
-
+import EditAccount from './screens/EditAccount'
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -26,7 +26,6 @@ export default function App() {
         }}>
           {/* Screen Home Page */}
           
-
           <Stack.Screen
           name="login"
           component={Login}
@@ -40,6 +39,10 @@ export default function App() {
         <Stack.Screen
           name="profile"
           component={Profile}
+        />
+        <Stack.Screen
+          name="editAccount"
+          component={EditAccount}
         />
         <Stack.Screen
           name="default_password"

@@ -42,7 +42,7 @@ const Profile = () => {
                 <Text style={styles.emailAdress}>preciousthobile@gmail.com</Text>
                 <Text style={styles.phoneNumber} >076 1290 995</Text>
             </View>
-            <TouchableOpacity style={styles.editProfileButton} /* onPress={() => navigation.navigate('updateProfile') }*/>
+            <TouchableOpacity style={styles.editProfileButton}  onPress={() => navigation.navigate('editAccount') }>
                 <Text style={styles.editProfileText}>Edit Profile</Text>
             </TouchableOpacity>
 

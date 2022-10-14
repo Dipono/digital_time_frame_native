@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-
+import { useNavigation } from '@react-navigation/native';
 import {
   StyleSheet,
   Image,
@@ -18,6 +18,8 @@ import {
 const { width: WIDTH } = Dimensions.get("window");
 
 export default function EditAccount() {
+  const navigation = useNavigation()
+
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
@@ -99,7 +101,7 @@ export default function EditAccount() {
          <Text>to change your password</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.editProfileButton}>
+      <TouchableOpacity style={styles.editProfileButton} onPress={() => navigation.navigate('profile')}>
         <Text style={styles.editProfileText}>Save</Text>
       </TouchableOpacity>
     </SafeAreaView>
