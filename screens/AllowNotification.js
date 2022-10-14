@@ -1,6 +1,6 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-const img = require('../assets/image/undraw_my_notifications_re_ehmk.svg')
+const img = require('../assets/image/notification.png')
 const backImg = require('../assets/image/back.png')
 function AllowNotification() {
     return (
@@ -37,19 +37,20 @@ const styles = StyleSheet.create({
     },
     headingView: {
         flexDirection: 'row',
-        marginTop: 30,
+        marginTop: 50,
     },
     backIcon: {
         width: 25,
         height: 20,
-        marginLeft:'2%'
+        marginLeft:'2%',
+        marginTop:1,
     },
     heading: {
-        margin:'auto',
-        fontFamily: 'Emblema One',
+       /*  fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 20,
+        marginLeft:80
     },
     image: {
         width: 365,
@@ -61,23 +62,21 @@ const styles = StyleSheet.create({
     message: {
         width: 255,
         alignSelf: 'center',
-        marginTop: -20,
-        fontFamily: 'Ebrima',
+       
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 16,
-marginTop:10,
     },
     allowButtonText: {
-
-        margin: 'auto',
-        fontFamily: 'Emblema One',
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 24,
         lineHeight: 29,
-
+alignSelf:'center',
         color: '#FFFFFF',
+        marginTop:10,
     },
     allowButton: {
         width: 133,
@@ -88,12 +87,13 @@ marginTop:10,
         borderRadius: 20,
     },
     skipText: {
-        fontFamily: 'Emblema One',
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 24,
         lineHeight: 29,
         marginTop:10,
+        alignSelf:'center',
     }
 })
 
