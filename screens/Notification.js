@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
 const backIcon = require('../assets/image/back.png')
 
 function Notification() {
+    const navigation = useNavigation()
 
     const [Notifications, setNotifications] = useState([
         { id: 1, nameFrom: 'admin', title: 'attendanece', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '06-Sep-2022 12:15' },

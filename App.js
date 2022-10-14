@@ -14,8 +14,6 @@ import HomePage from './screens/homePage';
 import Logs from './screens/Logs'
 import ClockIn from './screens/Clock'
 
-
-
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (

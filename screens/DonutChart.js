@@ -23,16 +23,14 @@ const DonutChart = () => {
               cx="50%"
               cy="50%"
               r={radius}
-              stroke="red"
-              fill="transparent"
+              
               strokeWidth="20"
             />
             <Circle
               cx="50%"
               cy="50%"
               r={radius}
-              stroke="#54BD3A"
-              fill="transparent"
+              
               strokeWidth="20"
               strokeDasharray={circleCircumference}
               strokeDashoffset={strokeDashoffset}

@@ -13,7 +13,7 @@ import orangeImage from '../assets/image/watercolor-g85fa52325-1920.jpg';
 import redImage from '../assets/image/the-background-g5bc2e4f32-1280.png';
 import logout from '../assets/image/logout.png';
 import greenImage from '../assets/image/light-green-low-poly-crystal-background-polygon-design-pattern-environment-green-low-poly-illustration-low-polygon-background-free-vector.webp'
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function Home() {
   const navigation = useNavigation()
@@ -90,16 +90,16 @@ export default function Home() {
           </View>
 
           {/*profile*/}
-          <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-            <ImageBackground source={orangeImage} style={styles.profile} >
-              <Text style={styles.proflieText}>Profile</Text>
-              <Text style={styles.nameText}>name:Precious</Text>
-              <Text style={styles.emailText}>Email:preciou@gmail.com</Text>
-              <Text style={styles.contactText}>contact:0123828669</Text>
-              <Text style={styles.moreText}>more..</Text>
-              <Image source={profile} style={styles.profileImage} />
-            </ImageBackground>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+              <ImageBackground source={orangeImage} style={styles.profile} >
+                <Text style={styles.proflieText}>Profile</Text>
+                <Text style={styles.nameText}>name:Precious</Text>
+                <Text style={styles.emailText}>Email:preciou@gmail.com</Text>
+                <Text style={styles.contactText}>contact:0123828669</Text>
+                <Text style={styles.moreText}>more..</Text>
+                <Image source={profile} style={styles.profileImage} />
+              </ImageBackground>
+            </TouchableOpacity>
 
           {/*Notifications*/}
           <TouchableOpacity onPress={() => navigation.navigate('notification')}>
