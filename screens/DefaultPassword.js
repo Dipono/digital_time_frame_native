@@ -1,32 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-const img = require('../assets/image/back.png');
-export default function DefaultPassowrd() {
+
+
+const backIcon = require('../assets/image/back.png')
+
+export default function DefaultPassword() {
     return (
-        <SafeAreaView style={styles.container}>
-            <View source={img} style={styles.headingView} >
-                <Image source={img} style={styles.image} />
-                <Text style={styles.Header}>Change Password</Text>
+        <SafeAreaView>
+
+            <View style={styles.HeaderView}>
+                <Image source={backIcon} style={styles.backIcon} />
+                <Text style={styles.header}>Change Password</Text>
             </View>
 
-
-
-            <View >
-                <Text style={styles.newPasswordText}>New Password:</Text>
-                <TextInput style={styles.newPasswordInput}></TextInput>
+            <View style={styles.newPassword}>
+                <Text style={styles.text}>New Password:</Text>
+                <TextInput style={styles.input}
+                placeholder={"***********"}
+                placeholdeTextColor={"rgba(255,255,255,0.7)"}
+                underlineColorAndroid="transparent"/>
             </View>
-            <View >
-                <Text style={styles.confirmPasswordText}>Confirm Password:</Text>
-                <TextInput style={styles.confirmPasswordInput}></TextInput>
+            <View style={styles.confirmPassword}>
+                <Text style={styles.text}>Confirm Password:</Text>
+                <TextInput style={styles.input}
+                  placeholder={"***********"}
+                  placeholdeTextColor={"rgba(255,255,255,0.7)"}
+                  underlineColorAndroid="transparent"/>
             </View>
+            <Text style={styles.message}>Please change your default passwod for security</Text>
 
-            <Text style={styles.WarningText}>Please change the default password for security</Text>
             <TouchableOpacity style={styles.changeButton} >
-                <Text style={styles.buttonText}>Change</Text>
+                <Text style={styles.changeText}>Change</Text>
             </TouchableOpacity>
-
-
         </SafeAreaView>
     );
 }
@@ -35,91 +40,91 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#E7E7E7',
-        textAlign: 'center',
-        paddingBottom: 1000
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    Header: {
-
-        margin: 'auto',
-        fontFamily: 'Emblema One',
+    HeaderView: {
+        flexDirection: 'row',
+        marginTop: 35,
+    },
+    backIcon: {
+        width: 25,
+        height: 20,
+        marginLeft: '2%'
+    },
+    header: {
+        marginLeft: 60,
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 20,
-
+        lineHeight: 24,
     },
-    image: {
-        width: 25,
-        height: 20,
-    }
-    , headingView: {
-        flexDirection: 'row',
-        marginTop:40,
-        marginLeft:'3%'
-    },
-    newPasswordText: {
-        marginTop: '25%',
+    text: {
+        width: 203,
+        height: 26,
 
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 20,
         lineHeight: 26,
 
     },
-    confirmPasswordText: {
+    input: {
+        width: 300,
+        height: 34,
+        
+        backgroundColor: '#FFFFFF',
+        borderRadius: 5,
+        padding: 10,
+        marginLeft: -10,
+        marginTop:10
+    },
+    newPassword: {
+        marginTop: 140,
+        alignSelf: 'center',
+        marginLeft: 40
+
+    },
+    confirmPassword: {
         marginTop: 20,
-
-        fontFamily: 'Ebrima',
-        fontStyle: 'normal',
-        fontWeight: '700',
-        fontSize: 20,
-        lineHeight: 26,
+        alignSelf: 'center',
+        marginLeft: 40
     },
-    newPasswordInput: {
-        width: 313,
-        height: 34,
-        marginTop: 8,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 5,
-        margin: 'auto'
-    },
-    confirmPasswordInput: {
-        width: 313,
-        height: 34,
-        margin: 'auto',
-        marginTop: 8,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 5,
-    },
-    WarningText: {
+    message: {
         width: 254,
         height: 64,
-        margin: 'auto',
-        marginTop: 25,
 
-        fontFamily: 'Ebrima',
+        /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 18,
         lineHeight: 24,
+        alignSelf: 'center',
+        marginTop:30,
     },
     changeButton: {
         width: 133,
         height: 54,
-        margin: 'auto',
-        marginTop: 45,
 
         backgroundColor: '#308989',
         borderRadius: 20,
+        alignSelf:'center',
+        marginTop:10,
     },
-    buttonText: {
-        fontFamily: 'Emblema One',
+    changeText: {
+        width: 107,
+        height: 29,
+
+        /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
         fontWeight: '400',
         fontSize: 24,
         lineHeight: 29,
-        margin: 'auto',
+
         color: '#FFFFFF',
-    },
-    
+        marginLeft: 20,
+        marginTop: 10,
+    }
 });

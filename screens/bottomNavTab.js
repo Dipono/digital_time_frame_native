@@ -27,7 +27,7 @@ export default  function bottomNavTab(){
         <TouchableOpacity style={styles.homeIconContainer} onPress={() => navigation.navigate('logs')}>
             <Image source={Logs} style={styles.homIcon}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('notifaction')}>
+        <TouchableOpacity onPress={() => navigation.navigate('notification')}>
             <Image source={notification} style={styles.homIcon}/>
         </TouchableOpacity>
         
