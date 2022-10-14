@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Modal, Dimensions, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 const profileImg = require("../assets/image/solo-leveling-sung-jin-woo-manga-anime-boys-hd-wallpaper-preview.jpg")
 const locationImg = require('../assets/image/location.png')
 const contactImg = require('../assets/image/contact.png')
@@ -24,8 +24,8 @@ const Profile = () => {
 
             <View style={styles.headingView}>
                 <TouchableOpacity onPress={() => navigation.navigate('homePage')}>
-                <Image source={backIcon} style={styles.backIcon}  />
-                    </TouchableOpacity>
+                    <Image source={backIcon} style={styles.backIcon} />
+                </TouchableOpacity>
                 <Text style={styles.heading}>Profile</Text>
 
             </View>
@@ -42,11 +42,11 @@ const Profile = () => {
                 <Text style={styles.emailAdress}>preciousthobile@gmail.com</Text>
                 <Text style={styles.phoneNumber} >076 1290 995</Text>
             </View>
-            <TouchableOpacity style={styles.editProfileButton}  onPress={() => navigation.navigate('editAccount') }>
+            <TouchableOpacity style={styles.editProfileButton} onPress={() => navigation.navigate('editAccount')}>
                 <Text style={styles.editProfileText}>Edit Profile</Text>
             </TouchableOpacity>
 
-<View style = {styles.line}/>
+            <View style={styles.line} />
 
 
 
@@ -149,8 +149,8 @@ const Profile = () => {
                     >
                         <View style={styles.modal}>
                             <View style={styles.textView}>
-                            <Text style={styles.textHeader}>about Us</Text>
-                    <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum pharetra magna quis tempor. Nunc orci dolor, bibendum id elementum sed, consequat ac nisi. Integer facilisis libero luctus urna rhoncus, sollicitudin tempus leo ornare.</Text>
+                                <Text style={styles.textHeader}>about Us</Text>
+                                <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum pharetra magna quis tempor. Nunc orci dolor, bibendum id elementum sed, consequat ac nisi. Integer facilisis libero luctus urna rhoncus, sollicitudin tempus leo ornare.</Text>
                                 <TouchableOpacity
                                     style={styles.buttonOK}
                                     onPress={() => setisModalVisibleAboutUs(!isModalVisibleAboutUs)}
@@ -177,10 +177,12 @@ const Profile = () => {
 
 
                 {/* About Us Div */}
-               
+
                 <View style={styles.LogOutDiv}>
                     <Image source={logOutImg} style={styles.LogOutIcon} />
+                    <TouchableOpacity onPress={() => navigation.navigate('login')}>
                     <Text style={styles.LogOutText}>Log Out</Text>
+                    </TouchableOpacity>
                     <Image source={forwardIcon} style={styles.forwardIcon} />
                 </View>
 
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'center',
         justifyContent: 'center',
-        marginLeft: '25%',
+        marginLeft: '30%',
     },
     backIcon: {
         width: 25,
@@ -317,9 +319,9 @@ const styles = StyleSheet.create({
     line: {
         width: 331,
         borderWidth: 0.5,
-        borderColor:'rgba(0, 0, 0, 0.4)',
-      marginTop:30,
-      alignSelf:'center',
+        borderColor: 'rgba(0, 0, 0, 0.4)',
+        marginTop: 30,
+        alignSelf: 'center',
     },
     bottomDiv: {
         marginLeft: '8%',

@@ -1,13 +1,18 @@
-import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Touchable } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+
 const img = require('../assets/image/notification.png')
 const backImg = require('../assets/image/back.png')
+
 function AllowNotification() {
     const navigation = useNavigation();
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headingView}>
+                <TouchableOpacity onPress={() => navigation.navigate('default_password')}>
                 <Image style={styles.backIcon} source={backImg} />
+                </TouchableOpacity>
+                
                 <Text style={styles.heading}>Notifications</Text>
             </View>
 
@@ -18,11 +23,11 @@ function AllowNotification() {
                 <Text>App requirements Permission to send notifications</Text>
             </View>
 
-            <TouchableOpacity style={styles.allowButton} onPress={() => navigation.navigate('notification')}>
+            <TouchableOpacity style={styles.allowButton} onPress={() => navigation.navigate('updateProfile')}>
                 <Text style={styles.allowButtonText}>Allow</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('notification')}>
+            <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('updateProfile')}>
                 <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
 
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
     heading: {
        /*  fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: '400',
+        fontWeight: 'bold',
         fontSize: 20,
         marginLeft:80
     },

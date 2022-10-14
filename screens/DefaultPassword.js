@@ -1,15 +1,19 @@
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-
+import { useNavigation } from '@react-navigation/native';
 
 
 const backIcon = require('../assets/image/back.png')
 
 export default function DefaultPassword() {
+    const navigation = useNavigation()
     return (
         <SafeAreaView>
 
             <View style={styles.HeaderView}>
+                <TouchableOpacity onPress={() => navigation.navigate('login')}>
                 <Image source={backIcon} style={styles.backIcon} />
+                </TouchableOpacity>
+                
                 <Text style={styles.header}>Change Password</Text>
             </View>
 
@@ -29,7 +33,7 @@ export default function DefaultPassword() {
             </View>
             <Text style={styles.message}>Please change your default passwod for security</Text>
 
-            <TouchableOpacity style={styles.changeButton} >
+            <TouchableOpacity style={styles.changeButton} onPress={() => navigation.navigate('allowNotification')} >
                 <Text style={styles.changeText}>Change</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -50,13 +54,13 @@ const styles = StyleSheet.create({
     backIcon: {
         width: 25,
         height: 20,
-        marginLeft: '2%'
+        marginLeft: '5%'
     },
     header: {
         marginLeft: 60,
         /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: '400',
+        fontWeight: 'bold',
         fontSize: 20,
         lineHeight: 24,
     },
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
 
         /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
-        fontWeight: '700',
+        fontWeight: 'bold',
         fontSize: 20,
         lineHeight: 26,
 

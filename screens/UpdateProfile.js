@@ -1,12 +1,17 @@
 import { Image, SafeAreaView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 
 const img = require('../assets/image/wall.png')
 const backImg = require('../assets/image/back.png')
 function UpdateProfile() {
+    const navigation = useNavigation();
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headingView}>
+                <TouchableOpacity onPress={() => navigation.navigate('allowNotification')}>
                 <Image style={styles.backImage} source={backImg} />
+                </TouchableOpacity>
+                
                 <Text style={styles.heading}>Update Profile</Text>
 
             </View>
@@ -15,10 +20,10 @@ function UpdateProfile() {
 
             <Text style={styles.message}>You are adviced to change your profile or you can skip and update later</Text>
 
-            <TouchableOpacity style={styles.updateButton}>
+            <TouchableOpacity style={styles.updateButton} onPress={() => navigation.navigate('editAccount')}>
                 <Text style={styles.updateButtonText}>Update</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.skipButton}>
+            <TouchableOpacity style={styles.skipButton} onPress={() => navigation.navigate('homePage')}>
                 <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
         
         /* fontFamily: 'Emblema One', */
         fontStyle: 'normal',
-        fontWeight: '400',
+        fontWeight: 'bold',
         fontSize: 20,
         marginLeft:80,
     },

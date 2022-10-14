@@ -15,6 +15,7 @@ import {
   Dimensions,
 } from "react-native";
 
+const backIcon = require('../assets/image/back.png')
 const { width: WIDTH } = Dimensions.get("window");
 
 export default function EditAccount() {
@@ -67,7 +68,13 @@ export default function EditAccount() {
           </View>
         </View>
       </Modal>
+      <View style={styles.headingView}>
+      <TouchableOpacity onPress={() => navigation.navigate('homePage')}>
+                    <Image source={backIcon} style={styles.backIcon} />
+                </TouchableOpacity>
       <Text style={styles.heading}>Profile</Text>
+      </View>
+      
       <Image source={require("../assets/image/image.jpg")} style={styles.image} />
       <View style={styles.inputContainer}>
         <TextInput
@@ -114,6 +121,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#E7E7E7",
     textAlign: "center",
   },
+  headingView: {
+    flexDirection: 'row',
+    marginTop: 45,
+
+}, 
+backIcon: {
+  width: 25,
+  height: 20,
+  marginLeft: '2%',
+},
   editProfileButton: {
     width: 153,
     height: 39,
@@ -140,12 +157,12 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   heading: {
-    marginTop: 30,
     textAlign: "center",
   /*   fontFamily: "Emblema One", */
     fontStyle: "normal",
     fontWeight: "bold",
     fontSize: 20,
+    marginLeft: '30%',
   },
   image: {
     width: 120,

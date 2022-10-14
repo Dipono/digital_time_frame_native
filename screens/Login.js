@@ -36,7 +36,7 @@ function Home() {
           underlineColorAndroid="transparent"
         />
       </View>
-      <TouchableOpacity style={styles.btnLogin} onPress={() => navigation.navigate('homePage')}>
+      <TouchableOpacity style={styles.btnLogin} onPress={() => navigation.navigate('default_password')}>
         <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
       <Text style={styles.totTexts}>

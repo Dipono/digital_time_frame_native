@@ -6,7 +6,7 @@ const DonutChart = () => {
   const radius = 70;
   const circleCircumference = 2 * Math.PI * radius;
 
-  const leftToSpendAmount = 45;
+  const leftToSpendAmount = 50;
   const targetAmount = 100;
 
   const spentAmount = targetAmount - leftToSpendAmount;
@@ -23,14 +23,16 @@ const DonutChart = () => {
               cx="50%"
               cy="50%"
               r={radius}
-              
+              stroke="red"
+              fill="transparent"
               strokeWidth="20"
             />
             <Circle
               cx="50%"
               cy="50%"
               r={radius}
-              
+              stroke="#54BD3A"
+              fill="transparent"
               strokeWidth="20"
               strokeDasharray={circleCircumference}
               strokeDashoffset={strokeDashoffset}

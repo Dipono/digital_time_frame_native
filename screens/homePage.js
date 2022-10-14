@@ -108,7 +108,7 @@ export default function Home() {
           </TouchableOpacity>
 
           {/*Notifications*/}
-          <TouchableOpacity onPress={() => navigation.navigate('allowNotification')}>
+          <TouchableOpacity onPress={() => navigation.navigate('notification')}>
             <ImageBackground source={redImage} style={styles.profile}>
               <Text style={styles.proflieText}>Notifications</Text>
               <Text style={styles.nameText}>Not with radius </Text>

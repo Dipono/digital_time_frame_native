@@ -1,7 +1,8 @@
 import { View, Text, SafeAreaView, Image, ImageBackground, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-const backIcon = require('../assets/image/back.png')
+const backImg = require('../assets/image/back.png')
+
 import DonutChart from "./DonutChart"
 
 export default function Logs() {
@@ -36,63 +37,71 @@ export default function Logs() {
   return (
     <View>
       <SafeAreaView style={styles.container}>
-      {/* company name */}
-      {/* <View style={styles.head}>
+        {/* company name */}
+        {/* <View style={styles.head}>
         <Text style={styles.headText}>Logs</Text>
       </View> */}
-      
-      {/* attendenc average */}
-      <View style={styles.average}>
-        <Text style={styles.averageText}>Average attendence</Text>
-        <View style={{ flexDirection: "row" }}>
 
-          <DonutChart />
+        {/* attendenc average */}
+        <TouchableOpacity onPress={() => navigation.navigate('homePage')}>
+              <Image style={styles.backIcon} source={backImg} />
+            </TouchableOpacity>
+        <View style={styles.average}>
+          
+           
+            <Text style={styles.averageText}>Average attendence</Text>
+          
 
-          <View >
 
-            <View style={styles.pres}>
-              <View style={styles.circle} />
-              <Text>Present</Text>
+          <View style={{ flexDirection: "row" }}>
+
+            <DonutChart />
+
+            <View >
+
+              <View style={styles.pres}>
+                <View style={styles.circle} />
+                <Text>Present</Text>
+              </View>
+
+
+
+              <View style={styles.pres}>
+                <View style={styles.circle2} />
+                <Text>absent</Text>
+              </View>
+
             </View>
 
-
-
-            <View style={styles.pres}>
-              <View style={styles.circle2} />
-              <Text>absent</Text>
-            </View>
 
           </View>
 
-
         </View>
-
-      </View>
-      <ScrollView>
+        <ScrollView>
 
 
-        <View style={styles.card}>
-          <Text>This week</Text>
-          <TouchableOpacity activeOpacity={1} style={styles.smallCard}>
-            {Weekdays.map((Days, index) =>
-              <View key={index} style={styles.keyView}>
-                <ImageBackground style={styles.imageContainer}
-                  source={Days.image}>
-                  <Image source={require("../assets/image/gq.png")} style={styles.picture} />
-                  <DaysInfo name={Days.name} />
-                  <View style={styles.circle3} />
-                </ImageBackground>
-              </View>
-            )}
-          </TouchableOpacity>
-        </View>
+          <View style={styles.card}>
+            <Text>This week</Text>
+            <TouchableOpacity activeOpacity={1} style={styles.smallCard}>
+              {Weekdays.map((Days, index) =>
+                <View key={index} style={styles.keyView}>
+                  <ImageBackground style={styles.imageContainer}
+                    source={Days.image}>
+                    <Image source={require("../assets/image/gq.png")} style={styles.picture} />
+                    <DaysInfo name={Days.name} />
+                    <View style={styles.circle3} />
+                  </ImageBackground>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
-      </ScrollView>
+        </ScrollView>
 
 
-    </SafeAreaView>
+      </SafeAreaView>
     </View>
-    
+
 
   )
 }
@@ -132,9 +141,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center"
-  }
-
-  , averageText: {
+  },
+  headingView: {
+    flexDirection: 'row',
+    marginTop: 20,
+    marginLeft:'-50%',
+},
+backIcon: {
+    width: 25,
+    height: 20,
+   paddingLeft:-1000,
+    marginTop:1,
+   
+},
+ averageText: {
     fontSize: 12,
     fontStyle: "normal",
     fontWeight: 'bold',
@@ -226,12 +246,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 45,
 
-},
-backIcon: {
+  },
+  backIcon: {
     width: 25,
     height: 20,
-},
-heading: {
+  },
+  heading: {
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 20,
@@ -239,7 +259,7 @@ heading: {
     alignSelf: 'center',
     justifyContent: 'center',
     marginLeft: '25%',
-},
+  },
 
 
 })
