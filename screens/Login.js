@@ -9,9 +9,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-
+import { useState, useEffect } from "react";
+import { csv } from 'd3'
 function Home() {
   const navigation = useNavigation()
+
+  const [Email, setEmail] = useState('')
+  const [Password, setPassword] = useState('')
+
+  const fileReader = new FileReader();
+
+  useEffect(() => {
+    console.log(SampleList);
+    csv(SampleList).then(response => {
+      console.log(response)
+    })
+
+  })
+  function login() {
+    console.log(Email, Password)
+
+    navigation.navigate('default_password')
+  }
 
   return (
     <View style={styles.container}>
@@ -25,6 +44,7 @@ function Home() {
           placeholder={"Enter email"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(event) => setEmail(event)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -34,9 +54,10 @@ function Home() {
           placeholder={"Password"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(event) => setPassword(event)}
         />
       </View>
-      <TouchableOpacity style={styles.btnLogin} onPress={() => navigation.navigate('default_password')}>
+      <TouchableOpacity style={styles.btnLogin} onPress={() => login()}>
         <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
       <Text style={styles.totTexts}>
@@ -81,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width:  265,
+    width: 265,
     height: 44,
     borderRadius: 10,
     fontSize: 20,
@@ -92,7 +113,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   btnLogin: {
-    width:  155,
+    width: 155,
     height: 54,
     borderRadius: 5,
     fontSize: 16,
