@@ -17,15 +17,6 @@ function Home() {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
 
-  const fileReader = new FileReader();
-
-  useEffect(() => {
-    console.log(SampleList);
-    csv(SampleList).then(response => {
-      console.log(response)
-    })
-
-  })
   function login() {
     console.log(Email, Password)
 
