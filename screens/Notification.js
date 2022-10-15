@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import BottomNavTab from './bottomNavTab'
 import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 const backIcon = require('../assets/image/back.png')
 
 function Notification() {
@@ -106,7 +108,7 @@ function Notification() {
     </View>
 
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.headingView}>
                 <TouchableOpacity onPress={() => navigation.navigate('homePage')}>
                     <Image source={backIcon} style={styles.backIcon} />
@@ -116,12 +118,20 @@ function Notification() {
             </View>
             {(CountNotifications === 0) && (emptyNotification)}
             {CountNotifications !== 0 && (AllNotifications)}
+            <SafeAreaView><BottomNavTab /></SafeAreaView>
+
         </View>
 
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        width: '100%',
+    
+      },
     notification: {
         marginTop: 30
     },
