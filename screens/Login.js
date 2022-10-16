@@ -9,19 +9,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from "react";
-import { csv } from 'd3'
+import { useState } from "react";
+
+
+
 function Home() {
   const navigation = useNavigation()
 
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
 
-  function login() {
+
+  async function login() {
     console.log(Email, Password)
 
+    
     navigation.navigate('default_password')
   }
+
 
   return (
     <View style={styles.container}>

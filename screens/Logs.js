@@ -1,8 +1,10 @@
 import { View, Text, Image, ImageBackground, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
-
 import React from 'react'
+
+//
+
 import BottomNavTab from './bottomNavTab'
 const backImg = require('../assets/image/back.png')
 
