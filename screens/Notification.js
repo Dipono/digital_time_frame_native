@@ -1,38 +1,53 @@
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import BottomNavTab from './bottomNavTab'
 import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { db } from '../data/firebase'
+import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
+
 const backIcon = require('../assets/image/back.png')
+import BottomNavTab from './bottomNavTab'
 
 function Notification() {
     const navigation = useNavigation()
 
-    const [Notifications, setNotifications] = useState([
-        { id: 1, nameFrom: 'admin', title: 'attendanece', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '06-Sep-2022 12:15' },
-
-        { id: 2, nameFrom: 'admin', title: 'workshop', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-        { id: 3, nameFrom: 'admin', title: 'presentation', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-        { id: 4, nameFrom: 'admin', title: 'submission', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-        { id: 5, nameFrom: 'admin', title: 'cleaning', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-        { id: 6, nameFrom: 'admin', title: 'recess', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-        { id: 7, nameFrom: 'admin', title: 'workshop', message: `As a teacher, I've internalized this message. Every day, all around us, we see the consequences of silence manifest themselves in the form of discrimination, violence, genocide and war. In the classroom, I challenge my students to explore the silences in their own lives through poetry. We work together to fill those spaces, to recognize them, to name them, to understand that they don't have to be sources of shame. In an effort to create a culture within my classroom where students feel safe sharing the intimacies of their own silences, I have four core principles posted on the board that sits in the front of my class, which every student signs at the beginning of the year: read critically, write consciously, speak clearly, tell your truth.`, dateTime: '05-Sep-2022 12:15' },
-
-    ])
-
+    const [Notifications, setNotifications] = useState([])
+    const [AllMessage, setAllMessage] = useState([])
+    const [AllUserNotifications, setAllUserNotifications] = useState([])
     const [NotificationSelected, setNotificationSelected] = useState({})
     const [popupNotification, setpopupNotification] = useState(false)
     const [CountNotifications, setCountNotifications] = useState(0)
+
+    const refCollectNotification = collection(db, 'Notifications')
+    const email = 'james@gmail.com'
     useEffect(() => {
-        setCountNotifications(1)
+        async function getNotifications() {
+            var userNotArray = []
+
+            const data = await getDocs(refCollectNotification);
+            var allNotifications = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            console.log(allNotifications)
+            for (var countNot = 0; countNot < allNotifications.length; countNot++) 
+            {
+                if(allNotifications[countNot].email === email && allNotifications[countNot].isDeleted === false){
+                    userNotArray.push(allNotifications[countNot])
+                }
+            }
+            setNotifications(userNotArray)
+        }
+        setCountNotifications(Notifications.length)
+        getNotifications()
     })
-    function removeNotification(message) {
+
+    async function removeNotification(message) {
+        console.log(message.id)
+        const updateUserField = doc(db, 'Notifications', message.id)
+        console.log(updateUserField)
         setNotifications(Notifications.filter((response) => response.id !== message.id));
+        await updateDoc(updateUserField, {
+            isDeleted: true
+        })
     }
 
     function SelectedNotification(notification) {
@@ -83,7 +98,7 @@ function Notification() {
 
                     <View style={[styles.summary, { backgroundColor: xid % 2 === 0 ? 'rgba(255, 225, 225, 1)' : 'rgba(140, 223, 223, 1)', height: '100%' }]}>
                         <Pressable onPress={() => SelectedNotification(messages)}>
-                            <Text style={styles.messageSender}>{messages.nameFrom}</Text>
+                            <Text style={styles.messageSender}>{messages.notFrom}</Text>
                             <Text style={styles.messageTitle}>{messages.title}</Text>
                         </Pressable>
 
@@ -101,7 +116,7 @@ function Notification() {
     </ScrollView>
 
     let emptyNotification = <View>
-        <Image source={require('../assets/image/undraw_my_notifications_re_ehmk(1).svg')} style={styles.emptyNoti} />
+        <Image source={require('../assets/image/undraw_My_notifications_re_ehmk.png')} style={styles.emptyNoti} />
         <View>
             <Text style={styles.emptyTextNotification}>You have no notifications</Text>
         </View>
@@ -130,8 +145,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         width: '100%',
-    
-      },
+
+    },
     notification: {
         marginTop: 30
     },

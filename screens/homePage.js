@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,
 } from 'react-native';
@@ -17,8 +17,23 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function Home() {
   const navigation = useNavigation()
+  const [AllMessage, setAllMessage] = useState([])
+  const [AllUserNotifications, setAllUserNotifications] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  useEffect(()=>{
+   
+  })
+
+  
+  function notifications() {
+    navigation.navigate('notification')
+  }
+
+
   const renderDays = ({ item }) => {
+
     return (
       <View style={styles.dayContainer}>
         <ImageBackground source={item.image} style={styles.image}>
@@ -108,7 +123,7 @@ export default function Home() {
           </TouchableOpacity>
 
           {/*Notifications*/}
-          <TouchableOpacity onPress={() => navigation.navigate('notification')}>
+          <TouchableOpacity onPress={() => notifications()}>
             <ImageBackground source={redImage} style={styles.profile}>
               <Text style={styles.proflieText}>Notifications</Text>
               <Text style={styles.nameText}>Not with radius </Text>

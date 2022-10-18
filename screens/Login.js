@@ -20,10 +20,9 @@ function Home() {
   const [Password, setPassword] = useState('')
 
 
+
   async function login() {
     console.log(Email, Password)
-
-    
     navigation.navigate('default_password')
   }
 

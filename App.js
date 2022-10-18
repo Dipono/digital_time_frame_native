@@ -25,7 +25,7 @@ export default function App() {
           headerShown: false
         }}>
           {/* Screen Home Page */}
-          
+         
           <Stack.Screen
           name="login"
           component={Login}
@@ -35,7 +35,7 @@ export default function App() {
         <Stack.Screen
           name="homePage"
           component={HomePage}
-        />
+        /> 
         <Stack.Screen
           name="profile"
           component={Profile}
