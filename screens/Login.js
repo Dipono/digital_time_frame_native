@@ -25,14 +25,10 @@ function Home() {
     
     await signInWithEmailAndPassword(auth,Email, Password)
         .then(()=>{
-            // localStorage.setItem('userEmail', response.user.email)
-            // localStorage.setItem('userId', response.user.uid)
-            // alert(response.user.uid)
+           
             navigation.navigate('homePage')
-            userCredentials => {
-              const user = userCredentials.user;
-              console.log('Logged in with:', user.email);
-            }
+          
+           
         }, (error)=>{
             console.log(error)
             alert('Incorrect username or password')

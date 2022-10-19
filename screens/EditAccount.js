@@ -14,6 +14,9 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
+
+import {sendPasswordResetEmail } from "firebase/auth";
+
 import { auth,Logout,db} from '../data/firebase';
 import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
 const backIcon = require('../assets/image/back.png')
@@ -22,9 +25,10 @@ const { width: WIDTH } = Dimensions.get("window");
 export default function EditAccount() {
   const navigation = useNavigation()
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
    // Update Text
    const [number, setPhoneNumber] = useState("")
+   
    const [name, setName] = useState("")
    const [surname, setSurname] = useState("")
    const [updateNumber, setUpdatePhoneNumber] = useState("")
@@ -64,10 +68,22 @@ export default function EditAccount() {
         alert('something went wrong try again')
     })
 }
- 
+async function resetPassword(){
+  sendPasswordResetEmail(auth, auth.currentUser?.email)
+  .then(() => {
+    // Password reset email sent!
+    alert('Password reset email sent!')
+    // ..
+  })
+  .catch((error) => {
+    alert(error)
+    // ..
+  });
+}
+
   return (
     <SafeAreaView style={styles.container}>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -96,21 +112,31 @@ export default function EditAccount() {
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.modalText}>Confirm Password</Text>
+          
               <TextInput
                 style={styles.modalInput}
                 placeholdeTextColor={"rgba(255,255,255,0.7)"}
                 underlineColorAndroid="transparent"
+                onChangeText={(event) => setNewPassword(event)} 
               />
             </View>
             <Pressable
               style={styles.eButton}
               onPress={() => setModalVisible(!modalVisible)}
+
+            >
+              <Text style={styles.eButtonText}>close</Text>
+            </Pressable>
+            <Pressable
+              style={styles.eButton}
+              onPress={changePassword}
+
             >
               <Text style={styles.eButtonText}>Save</Text>
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
       
       <View style={styles.headingView}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -153,8 +179,8 @@ export default function EditAccount() {
       </View>
       <View>
         <View style={styles.texts}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.text}> Click here </Text>
+          <TouchableOpacity >
+            <Text style={styles.text} onPress={resetPassword}> Click here </Text>
           </TouchableOpacity>
          <Text>to change your password</Text>
         </View>
