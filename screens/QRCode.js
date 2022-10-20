@@ -72,14 +72,12 @@ function QRCode() {
         var getHour = Number(clockin.substring(0, 2)) + 1
         var getMinutes = clockin.substring(3)
         var onehour = getHour + ':' + getMinutes
-        console.log(time + ' < ' + onehour)
         if (currentDate === fullDate && time < onehour) return alert('You just clock in')
 
         if (currentDate !== fullDate) {
             addDoc(refCollectAttendance, {
                 email: email, date: fullDate, clockIn: time, clockOut: '', attend: attend, weekNumber: weekNumber
             }).then(() => {
-                console.log('clock in')
                 alert('Clock In')
             }, (err) => {
                 console.log(err)
