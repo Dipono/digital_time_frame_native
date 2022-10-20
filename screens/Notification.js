@@ -13,8 +13,6 @@ function Notification() {
     const navigation = useNavigation()
 
     const [Notifications, setNotifications] = useState([])
-    const [AllMessage, setAllMessage] = useState([])
-    const [AllUserNotifications, setAllUserNotifications] = useState([])
     const [NotificationSelected, setNotificationSelected] = useState({})
     const [popupNotification, setpopupNotification] = useState(false)
     const [CountNotifications, setCountNotifications] = useState(0)
@@ -27,10 +25,16 @@ function Notification() {
 
             const data = await getDocs(refCollectNotification);
             var allNotifications = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            console.log(allNotifications)
-            for (var countNot = 0; countNot < allNotifications.length; countNot++) 
-            {
-                if(allNotifications[countNot].email === email && allNotifications[countNot].isDeleted === false){
+            for (var countNot = 0; countNot < allNotifications.length; countNot++) {
+                //photo-camera.png
+                console.log(allNotifications)
+                if (allNotifications[countNot].image === '') {
+                    allNotifications[countNot].image = require('../assets/image/photo-camera.png')
+                }
+                else {
+                    allNotifications[countNot].image = {uri: allNotifications[countNot].image}
+                }
+                if (allNotifications[countNot].email === email && allNotifications[countNot].isDeleted === false) {
                     userNotArray.push(allNotifications[countNot])
                 }
             }
@@ -69,7 +73,7 @@ function Notification() {
                         <Text style={styles.modaTitle}>{NotificationSelected.title}</Text>
                         <Text style={styles.modalDateTime}>{NotificationSelected.dateTime}</Text>
                         <View style={styles.modalDocument}>
-                            <Image source={require('../assets/image/photo-camera.png')} style={styles.modalAttach} />
+                            <Image source={NotificationSelected.image} style={styles.modalAttach} />
                         </View>
                         <ScrollView style={styles.scrollDetails}>
                             <Text style={styles.messageDetails}>{NotificationSelected.message}</Text>
@@ -230,6 +234,7 @@ const styles = StyleSheet.create({
         height: '25%',
         margin: 'auto',
         alignItems: 'center',
+        marginTop:10
     },
     modalAttach: {
         height: 100,
@@ -238,7 +243,8 @@ const styles = StyleSheet.create({
     scrollDetails: {
         marginTop: 10,
         flex: 1,
-        paddingBottom: 250
+        paddingBottom: 250,
+        marginTop:5
     },
     messageDetails: {
         margin: 5,

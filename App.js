@@ -24,18 +24,18 @@ export default function App() {
         screenOptions={{
           headerShown: false
         }}>
-          {/* Screen Home Page */}
-          
-          <Stack.Screen
+        {/* Screen Home Page */}
+         
+        <Stack.Screen
           name="login"
           component={Login}
         />
         {/* More Screens hereW */}
-        
+
         <Stack.Screen
           name="homePage"
           component={HomePage}
-        /> 
+        />
         <Stack.Screen
           name="profile"
           component={Profile}
@@ -48,14 +48,14 @@ export default function App() {
           name="default_password"
           component={DefaultPassword}
         />
-       <Stack.Screen
+        <Stack.Screen
           name="clockin"
           component={ClockIn}
         />
         <Stack.Screen
           name="notification"
           component={Notification}
-        />
+        /> 
         <Stack.Screen
           name="allowNotification"
           component={AllowNotification}
