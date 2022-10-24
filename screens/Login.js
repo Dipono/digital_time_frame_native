@@ -9,21 +9,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
 import { useState } from "react";
-
-
 
 function Home() {
   const navigation = useNavigation()
 
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
+  //const deviceId = getUniqueId()
 
 
-
+let device ={}
+device.uniqueId = DeviceInfo.getUniqueId()
+device.deviceId = DeviceInfo.getDeviceId()
+device.deviceName = DeviceInfo. getApplicationName()
   async function login() {
-    console.log(Email, Password)
-    navigation.navigate('default_password')
+    console.log(JSON.stringify(device))
+    //navigation.navigate('default_password')
   }
 
 
@@ -131,5 +134,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
+ 
 export default Home;

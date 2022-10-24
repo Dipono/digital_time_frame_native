@@ -60,10 +60,10 @@ export default function App() {
           name="allowNotification"
           component={AllowNotification}
         />
-        {<Stack.Screen
+        <Stack.Screen
           name="qrCode"
           component={QRCode}
-        />}
+        />
         <Stack.Screen
           name="logs"
           component={Logs}
