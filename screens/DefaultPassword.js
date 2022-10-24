@@ -1,11 +1,29 @@
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import {updatePassword } from "firebase/auth";
 
+import { auth,Logout,db} from '../data/firebase';
 
 const backIcon = require('../assets/image/back.png')
 
 export default function DefaultPassword() {
     const navigation = useNavigation()
+    const [newPassword, setNewPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    async function changePassword(){
+        if(newPassword === confirmPassword){
+            updatePassword(auth.currentUser, newPassword).then(() => {
+                alert('Password changed')
+                navigation.navigate('allowNotification')
+              }).catch((error) => {
+                alert(error)
+              });
+        }else{
+            alert('passwords dont match')
+        }
+        
+      }
+      
     return (
         <SafeAreaView>
 
@@ -20,20 +38,19 @@ export default function DefaultPassword() {
             <View style={styles.newPassword}>
                 <Text style={styles.text}>New Password:</Text>
                 <TextInput style={styles.input}
-                placeholder={"***********"}
-                placeholdeTextColor={"rgba(255,255,255,0.7)"}
-                underlineColorAndroid="transparent"/>
+                onChangeText={(event) => setNewPassword(event)} 
+                />
             </View>
             <View style={styles.confirmPassword}>
                 <Text style={styles.text}>Confirm Password:</Text>
                 <TextInput style={styles.input}
-                  placeholder={"***********"}
-                  placeholdeTextColor={"rgba(255,255,255,0.7)"}
-                  underlineColorAndroid="transparent"/>
+                  onChangeText={(event) => setConfirmPassword(event)} 
+                  />
+                  
             </View>
             <Text style={styles.message}>Please change your default passwod for security</Text>
 
-            <TouchableOpacity style={styles.changeButton} onPress={() => navigation.navigate('allowNotification')} >
+            <TouchableOpacity style={styles.changeButton} onPress={changePassword} >
                 <Text style={styles.changeText}>Change</Text>
             </TouchableOpacity>
         </SafeAreaView>

@@ -9,24 +9,32 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import DeviceInfo from 'react-native-device-info';
 import { useState } from "react";
+import { auth } from '../data/firebase';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import * as ImagePicker from 'expo-image-picker';
 
 function Home() {
   const navigation = useNavigation()
 
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
-  //const deviceId = getUniqueId()
 
 
-let device ={}
-device.uniqueId = DeviceInfo.getUniqueId()
-device.deviceId = DeviceInfo.getDeviceId()
-device.deviceName = DeviceInfo. getApplicationName()
   async function login() {
-    console.log(JSON.stringify(device))
-    //navigation.navigate('default_password')
+    
+    await signInWithEmailAndPassword(auth,Email, Password)
+        .then(()=>{
+           
+            navigation.navigate('homePage')
+          
+           
+        }, (error)=>{
+            console.log(error)
+            alert('Incorrect username or password')
+        })
+    // console.log(Email, Password)    
+    // navigation.navigate('default_password')
   }
 
 
@@ -52,6 +60,7 @@ device.deviceName = DeviceInfo. getApplicationName()
           placeholder={"Password"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
           underlineColorAndroid="transparent"
+          secureTextEntry={true}
           onChangeText={(event) => setPassword(event)}
         />
       </View>
@@ -134,5 +143,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
- 
+
 export default Home;

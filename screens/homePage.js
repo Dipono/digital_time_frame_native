@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState ,useEffect} from "react";
 import {
-  View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,
+  View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,TouchableOpacity
 } from 'react-native';
 import BottomNavTab from './bottomNavTab'
 import { useNavigation } from '@react-navigation/native';
-
 import profile from '../assets/image/profile.jpg';
 import daysData from '../data/daysData';
 import blueImage from '../assets/image/abstract.jpg';
@@ -13,27 +12,59 @@ import orangeImage from '../assets/image/watercolor-g85fa52325-1920.jpg';
 import redImage from '../assets/image/the-background-g5bc2e4f32-1280.png';
 import logout from '../assets/image/logout.png';
 import greenImage from '../assets/image/light-green-low-poly-crystal-background-polygon-design-pattern-environment-green-low-poly-illustration-low-polygon-background-free-vector.webp'
-import { TouchableOpacity } from "react-native";
+// import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { auth,Logout,db} from '../data/firebase';
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
+// import AccounIcon from '../assets/image/account.png'
 export default function Home() {
   const navigation = useNavigation()
-  const [AllMessage, setAllMessage] = useState([])
-  const [AllUserNotifications, setAllUserNotifications] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
-
-
-  useEffect(()=>{
-   
-  })
-
-  
-  function notifications() {
-    navigation.navigate('notification')
-  }
-
-
+  // import { db } from '../firebase'
+ 
+    // const [photoURL, setPhotoURL] = useState(AccounIcon);
+   //logOut
+    async function handleLogout(){
+        try{
+            await Logout()
+            navigation.navigate('login')
+        
+        }  catch{
+            alert("Error!");
+        }
+      
+    }
+     // Storing User Data
+     const [userDoc, setUserDoc] = useState(null)
+     // Update Text
+     const [number, setPhoneNumber] = useState("")
+     const [name, setName] = useState("")
+     const [surname, setSurname] = useState("")
+     const [location, setLocation] = useState("")
+     const userCollectionRef = collection(db, "profileDB")
+     const [id, setId] = useState("")
+     const [userInfo, setUserinfo] = useState([])
+     //get user information to display on home page and or recipt
+     useEffect(() => {
+         const getUserInfo = async () => {
+             const data = await getDocs(userCollectionRef);
+             setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            //  console.log(userInfo[0].phoneNumber)
+             for (var i = 0; i < userInfo.length; i++) {
+                 if (userInfo[i].Email === auth.currentUser?.email) {
+                     setPhoneNumber(userInfo[i].PhoneNumber)
+                     setName(userInfo[i].Name)
+                     setLocation(userInfo[i].Location)
+                     setSurname(userInfo[i].Surname)
+                     setId(userInfo[i].id)
+                     return;
+                 }
+             }
+         }
+         getUserInfo()
+     })
+    
   const renderDays = ({ item }) => {
-
     return (
       <View style={styles.dayContainer}>
         <ImageBackground source={item.image} style={styles.image}>
@@ -53,8 +84,8 @@ export default function Home() {
           source={profile}
         />
         <Text style={styles.welcomeText}>Welcome to DTF </Text>
-        <Text style={styles.name}>Thobile Masilela </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('login')}>
+        <Text style={styles.name}>{name} {surname} </Text>
+        <TouchableOpacity onPress={handleLogout}>
           <Image source={logout} style={styles.logOut} />
         </TouchableOpacity>
 
@@ -114,16 +145,16 @@ export default function Home() {
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
             <ImageBackground source={orangeImage} style={styles.profile} >
               <Text style={styles.proflieText}>Profile</Text>
-              <Text style={styles.nameText}>name:Precious</Text>
-              <Text style={styles.emailText}>Email:preciou@gmail.com</Text>
-              <Text style={styles.contactText}>contact:0123828669</Text>
+              <Text style={styles.nameText}>name:{name} {surname}</Text>
+              <Text style={styles.emailText}>Email:{auth.currentUser?.email}</Text>
+              <Text style={styles.contactText}>contact:{number}</Text>
               <Text style={styles.moreText}>more..</Text>
               <Image source={profile} style={styles.profileImage} />
             </ImageBackground>
           </TouchableOpacity>
 
           {/*Notifications*/}
-          <TouchableOpacity onPress={() => notifications()}>
+          <TouchableOpacity onPress={() => navigation.navigate('notification')}>
             <ImageBackground source={redImage} style={styles.profile}>
               <Text style={styles.proflieText}>Notifications</Text>
               <Text style={styles.nameText}>Not with radius </Text>

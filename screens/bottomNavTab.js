@@ -13,7 +13,7 @@ export default  function bottomNavTab(){
     return (
        
       <View style={styles.container}>
-         <ImageBackground source={bgImage} style={styles.image}>
+         <ImageBackground  style={styles.image}>
            
         <TouchableOpacity style={styles.homeIconContainer} onPress={() => navigation.navigate('homePage')}>
             <Image source={homeIcon} style={styles.homIcon}/>

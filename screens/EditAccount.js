@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -15,16 +15,75 @@ import {
   Dimensions,
 } from "react-native";
 
+import {sendPasswordResetEmail } from "firebase/auth";
+
+import { auth,Logout,db} from '../data/firebase';
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
 const backIcon = require('../assets/image/back.png')
 const { width: WIDTH } = Dimensions.get("window");
 
 export default function EditAccount() {
   const navigation = useNavigation()
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
+   // Update Text
+   const [number, setPhoneNumber] = useState("")
+   
+   const [name, setName] = useState("")
+   const [surname, setSurname] = useState("")
+   const [updateNumber, setUpdatePhoneNumber] = useState("")
+   const [updateName, setUpdateName] = useState("")
+   const [updateSurname, setUpdateSurname] = useState("")
+   const [location, setLocation] = useState("")
+   const userCollectionRef = collection(db, "profileDB")
+   const [id, setId] = useState("")
+   const [userInfo, setUserinfo] = useState([])
+   //get user information to display on home page and or recipt
+   useEffect(() => {
+       const getUserInfo = async () => {
+           const data = await getDocs(userCollectionRef);
+           setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+          //  console.log(userInfo[0].phoneNumber)
+           for (var i = 0; i < userInfo.length; i++) {
+               if (userInfo[i].Email === auth.currentUser?.email) {
+                   setPhoneNumber(userInfo[i].PhoneNumber)
+                   setName(userInfo[i].Name)
+                   setLocation(userInfo[i].Location)
+                   setSurname(userInfo[i].Surname)
+                   setId(userInfo[i].id)
+                   return;
+               }
+           }
+       }
+       getUserInfo()
+   })
+   //Update user information
+   async function updateUserProfile() {
+    const userDocuments = doc(db, 'profileDB', id)
+
+    const newFlieds = { Name: updateName, Surname: updateSurname, PhoneNumber: updateNumber}
+
+    await updateDoc(userDocuments, newFlieds).then(() => { alert('updated') }, (err) => {
+        console.log(err)
+        alert('something went wrong try again')
+    })
+}
+async function resetPassword(){
+  sendPasswordResetEmail(auth, auth.currentUser?.email)
+  .then(() => {
+    // Password reset email sent!
+    alert('Password reset email sent!')
+    // ..
+  })
+  .catch((error) => {
+    alert(error)
+    // ..
+  });
+}
+
   return (
     <SafeAreaView style={styles.container}>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -53,23 +112,34 @@ export default function EditAccount() {
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.modalText}>Confirm Password</Text>
+          
               <TextInput
                 style={styles.modalInput}
                 placeholdeTextColor={"rgba(255,255,255,0.7)"}
                 underlineColorAndroid="transparent"
+                onChangeText={(event) => setNewPassword(event)} 
               />
             </View>
             <Pressable
               style={styles.eButton}
               onPress={() => setModalVisible(!modalVisible)}
+
+            >
+              <Text style={styles.eButtonText}>close</Text>
+            </Pressable>
+            <Pressable
+              style={styles.eButton}
+              onPress={changePassword}
+
             >
               <Text style={styles.eButtonText}>Save</Text>
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+      
       <View style={styles.headingView}>
-      <TouchableOpacity onPress={() => navigation.navigate('homePage')}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={backIcon} style={styles.backIcon} />
                 </TouchableOpacity>
       <Text style={styles.heading}>Profile</Text>
@@ -79,36 +149,43 @@ export default function EditAccount() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder={"name"}
+          
+          placeholder={"Name"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
+          onChangeText={(event) => setUpdateName(event)} 
+         
           underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder={"surname"}
+          placeholder={"Surname"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
+          onChangeText={(event) => setUpdateSurname(event)} 
+        
           underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder={"phone number"}
+          placeholder={"Phone Number"}
           placeholdeTextColor={"rgba(255,255,255,0.7)"}
-          underlineColorAndroid="transparent"
+          onChangeText={(event) => setUpdatePhoneNumber(event)} 
+          
+          
         />
       </View>
       <View>
         <View style={styles.texts}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.text}> Click here </Text>
+          <TouchableOpacity >
+            <Text style={styles.text} onPress={resetPassword}> Click here </Text>
           </TouchableOpacity>
          <Text>to change your password</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.editProfileButton} onPress={() => navigation.navigate('profile')}>
+      <TouchableOpacity style={styles.editProfileButton} onPress={updateUserProfile}>
         <Text style={styles.editProfileText}>Save</Text>
       </TouchableOpacity>
     </SafeAreaView>

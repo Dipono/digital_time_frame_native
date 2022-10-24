@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Image, Modal, Dimensions, SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 const profileImg = require("../assets/image/solo-leveling-sung-jin-woo-manga-anime-boys-hd-wallpaper-preview.jpg")
@@ -8,7 +8,8 @@ const logOutImg = require('../assets/image/exit-icon-3.png')
 const aboutUsImg = require('../assets/image/info.png')
 const forwardIcon = require('../assets/image/skip-track.png')
 const backIcon = require('../assets/image/back.png')
-
+import { auth,Logout,db} from '../data/firebase';
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = 200;
 
@@ -18,7 +19,44 @@ const Profile = () => {
     const [isModalVisible, setisModalVisible] = useState(false);
     const [isModalVisibleContact, setisModalVisibleContact] = useState(false);
     const [isModalVisibleAboutUs, setisModalVisibleAboutUs] = useState(false);
-
+      // Update Text
+      const [number, setPhoneNumber] = useState("")
+      const [name, setName] = useState("")
+      const [surname, setSurname] = useState("")
+      const [location, setLocation] = useState("")
+      const userCollectionRef = collection(db, "profileDB")
+      const [id, setId] = useState("")
+      const [userInfo, setUserinfo] = useState([])
+      //get user information to display on home page and or recipt
+      useEffect(() => {
+          const getUserInfo = async () => {
+              const data = await getDocs(userCollectionRef);
+              setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+             //  console.log(userInfo[0].phoneNumber)
+              for (var i = 0; i < userInfo.length; i++) {
+                  if (userInfo[i].Email === auth.currentUser?.email) {
+                      setPhoneNumber(userInfo[i].PhoneNumber)
+                      setName(userInfo[i].Name)
+                      setLocation(userInfo[i].Location)
+                      setSurname(userInfo[i].Surname)
+                      setId(userInfo[i].id)
+                      return;
+                  }
+              }
+          }
+          getUserInfo()
+      })
+       //logOut
+    async function handleLogout(){
+        try{
+            await Logout()
+            navigation.navigate('login')
+        
+        }  catch{
+            alert("Error!");
+        }
+      
+    }
     return (
         <SafeAreaView style={styles.container}>
 
@@ -32,15 +70,15 @@ const Profile = () => {
 
             <Image source={profileImg} style={styles.image} />
             <View style={styles.userDetails}>
-                <Text style={styles.name_surname}>Thobile Masilela</Text>
+                <Text style={styles.name_surname}>{name} {surname} </Text>
                 <Text style={styles.position}>Software Development Intern</Text>
                 <View style={styles.locateView} >
                     <Image source={locationImg} style={styles.locationImage} />
-                    <Text style={styles.location}>Lynwood Pretoria</Text>
+                    <Text style={styles.location}>{location}</Text>
                 </View>
 
-                <Text style={styles.emailAdress}>preciousthobile@gmail.com</Text>
-                <Text style={styles.phoneNumber} >076 1290 995</Text>
+                <Text style={styles.emailAdress}>{auth.currentUser?.email}</Text>
+                <Text style={styles.phoneNumber} >{number}</Text>
             </View>
             <TouchableOpacity style={styles.editProfileButton} onPress={() => navigation.navigate('editAccount')}>
                 <Text style={styles.editProfileText}>Edit Profile</Text>
@@ -146,12 +184,13 @@ const Profile = () => {
                             Alert.alert("Modal has been closed.");
                             setisModalVisibleAboutUs(!isModalVisibleAboutUs);
                         }}
-                    >
+                    >  
                         <View style={styles.modal}>
                             <View style={styles.textView}>
                                 <Text style={styles.textHeader}>about Us</Text>
                                 <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum pharetra magna quis tempor. Nunc orci dolor, bibendum id elementum sed, consequat ac nisi. Integer facilisis libero luctus urna rhoncus, sollicitudin tempus leo ornare.</Text>
                                 <TouchableOpacity
+                                
                                     style={styles.buttonOK}
                                     onPress={() => setisModalVisibleAboutUs(!isModalVisibleAboutUs)}
                                 >
@@ -180,7 +219,7 @@ const Profile = () => {
 
                 <View style={styles.LogOutDiv}>
                     <Image source={logOutImg} style={styles.LogOutIcon} />
-                    <TouchableOpacity onPress={() => navigation.navigate('login')}>
+                    <TouchableOpacity onPress={handleLogout}>
                     <Text style={styles.LogOutText}>Log Out</Text>
                     </TouchableOpacity>
                     <Image source={forwardIcon} style={styles.forwardIcon} />
