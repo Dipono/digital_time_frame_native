@@ -30,7 +30,7 @@ export default function App() {
           name="login"
           component={Login}
         />
-        {/* More Screens hereW */}
+        {/* More Screens here */}
 
         <Stack.Screen
           name="homePage"
