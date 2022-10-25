@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
-import { auth } from '../data/firebase';
+import { auth, db } from '../data/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
+import * as Device from 'expo-device';
 
 function Home() {
   const navigation = useNavigation()
@@ -20,19 +22,33 @@ function Home() {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
 
-
+  const userRef = collection(db,'User')
   async function login() {
-    
-    await signInWithEmailAndPassword(auth,Email, Password)
-        .then(()=>{
-           
+
+    await signInWithEmailAndPassword(auth, Email, Password)
+      .then(() => {
+        getDocs(userRef).then((respond)=>{
+          var allUser = respond.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          var singleUser = allUser.filter((response) => response.email === Email);
+          if(singleUser.deviceId === ''){
+            
+          }
+          if (Device.osInternalBuildId === singleUser.deviceId) {
             navigation.navigate('homePage')
-          
-           
-        }, (error)=>{
-            console.log(error)
-            alert('Incorrect username or password')
+          }
+          else{
+            alert('You are not authorized to this application')
+          }
+        },
+        (err)=>{
+          alert('Something went wrong')
+          console.log(err)
         })
+
+      }, (error) => {
+        console.log(error)
+        alert('Incorrect username or password')
+      })
     // console.log(Email, Password)    
     // navigation.navigate('default_password')
   }
