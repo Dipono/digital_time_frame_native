@@ -26,10 +26,10 @@ export default function App() {
         }}>
           {/* Screen Home Page */}
           
-          <Stack.Screen
+        {/*   <Stack.Screen
           name="login"
           component={Login}
-        />
+        /> */}
         {/* More Screens hereW */}
         
         <Stack.Screen
