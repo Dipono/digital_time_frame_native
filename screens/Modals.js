@@ -6,7 +6,6 @@ const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = 200;
 
 export const LocationsPopUp = (props) => {
-
      closeModal = (bool, data) => {
         props.changeModalVisible(bool);
         props.setData(data);
