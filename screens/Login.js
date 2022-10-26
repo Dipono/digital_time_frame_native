@@ -11,7 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
 import { auth, db } from '../data/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
 import * as Device from 'expo-device';
@@ -22,35 +22,53 @@ function Home() {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
 
-  const userRef = collection(db,'User')
-  async function login() {
+  const userRef = collection(db, 'users')
+  function login() {
+    var singleUser = []
 
-    await signInWithEmailAndPassword(auth, Email, Password)
+    signInWithEmailAndPassword(auth, Email, Password)
       .then(() => {
-        getDocs(userRef).then((respond)=>{
+        getDocs(userRef).then((respond) => {
           var allUser = respond.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-          var singleUser = allUser.filter((response) => response.email === Email);
-          if(singleUser.deviceId === ''){
-            
+
+          for (var count = 0; count < allUser.length; count++) {
+            if (allUser[count].Email.toLowerCase() === Email.toLowerCase()) {
+              singleUser.push(allUser[count])
+            }
           }
-          if (Device.osInternalBuildId === singleUser.deviceId) {
-            navigation.navigate('homePage')
+
+          if (singleUser[0].DeviceId === "") {
+            const updateUserField = doc(db, 'users', singleUser[0].id)
+            return updateDoc(updateUserField, {
+              DeviceId: Device.osInternalBuildId
+            }).then(() => {
+
+              navigation.navigate('default_password')
+
+            }, (err) => {
+              console.log(err)
+              alert('something went wrong try again')
+            })
           }
-          else{
-            alert('You are not authorized to this application')
+
+          if (Device.osInternalBuildId !== singleUser[0].DeviceId && singleUser[0].DeviceId !== '') {
+            return alert('You are not authorized to this application')
+
           }
+          return navigation.navigate('homePage')
+
         },
-        (err)=>{
-          alert('Something went wrong')
-          console.log(err)
-        })
+          (err) => {
+            alert('Something went wrong')
+            console.log(err)
+          })
 
       }, (error) => {
         console.log(error)
         alert('Incorrect username or password')
       })
-    // console.log(Email, Password)    
-    // navigation.navigate('default_password')
+
+
   }
 
 

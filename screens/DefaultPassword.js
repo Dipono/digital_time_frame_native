@@ -1,7 +1,7 @@
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import {updatePassword } from "firebase/auth";
-
+import { useState } from "react";
 import { auth,Logout,db} from '../data/firebase';
 
 const backIcon = require('../assets/image/back.png')

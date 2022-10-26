@@ -2,14 +2,14 @@ import { Text, View, StyleSheet, Button, TouchableOpacity, Modal } from 'react-n
 //import { RNQRCodeScannerProps, RNQRCodeScannerState  } from 'react-native-qrcode-scanner'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useState, useEffect } from 'react';
-import { db } from '../data/firebase'
+import { auth, db } from '../data/firebase'
 import { doc, updateDoc, collection, addDoc, getDocs } from 'firebase/firestore';
 function QRCode() {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [ClockOutPopUp, setClockOutPopUp] = useState(false);
     const [AttendId, setAttendId] = useState('');
-    const email = 'james@gmail.com'
+    const email = auth.currentUser.email
 
     const refCollectAttendance = collection(db, 'Attendance')
 

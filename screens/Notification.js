@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { db } from '../data/firebase'
+import { auth, db } from '../data/firebase'
 import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 
 const backIcon = require('../assets/image/back.png')
@@ -18,7 +18,7 @@ function Notification() {
     const [CountNotifications, setCountNotifications] = useState(0)
 
     const refCollectNotification = collection(db, 'Notifications')
-    const email = 'james@gmail.com'
+    const email = auth.currentUser.email
     useEffect(() => {
         async function getNotifications() {
             var userNotArray = []

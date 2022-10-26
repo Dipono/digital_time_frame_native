@@ -34,7 +34,7 @@ const Profile = () => {
               setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
              //  console.log(userInfo[0].phoneNumber)
               for (var i = 0; i < userInfo.length; i++) {
-                  if (userInfo[i].Email === auth.currentUser?.email) {
+                  if (userInfo[i].Email === auth.currentUser.email) {
                       setPhoneNumber(userInfo[i].PhoneNumber)
                       setName(userInfo[i].Name)
                       setLocation(userInfo[i].Location)

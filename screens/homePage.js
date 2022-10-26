@@ -41,7 +41,7 @@ export default function Home() {
      const [name, setName] = useState("")
      const [surname, setSurname] = useState("")
      const [location, setLocation] = useState("")
-     const userCollectionRef = collection(db, "profileDB")
+     const userCollectionRef = collection(db, "users")
      const [id, setId] = useState("")
      const [userInfo, setUserinfo] = useState([])
      //get user information to display on home page and or recipt
@@ -51,7 +51,7 @@ export default function Home() {
              setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             //  console.log(userInfo[0].phoneNumber)
              for (var i = 0; i < userInfo.length; i++) {
-                 if (userInfo[i].Email === auth.currentUser?.email) {
+                 if (userInfo[i].Email === auth.currentUser.email) {
                      setPhoneNumber(userInfo[i].PhoneNumber)
                      setName(userInfo[i].Name)
                      setLocation(userInfo[i].Location)
