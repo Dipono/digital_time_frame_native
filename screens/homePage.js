@@ -13,6 +13,7 @@ import redImage from '../assets/image/the-background-g5bc2e4f32-1280.png';
 import logout from '../assets/image/logout.png';
 import greenImage from '../assets/image/light-green-low-poly-crystal-background-polygon-design-pattern-environment-green-low-poly-illustration-low-polygon-background-free-vector.webp'
 // import { TouchableOpacity } from "react-native";
+import Days from "./Days";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth,Logout,db} from '../data/firebase';
 import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
@@ -103,21 +104,7 @@ export default function Home() {
       />
       <ScrollView>
         <View >
-          <View style={styles.circle}>
-            <Text style={styles.innerLetter}>M</Text>
-          </View>
-          <View style={styles.circle2}>
-            <Text style={styles.innerLetter}>T</Text>
-          </View>
-          <View style={styles.circle3}>
-            <Text style={styles.innerLetter}>W</Text>
-          </View>
-          <View style={styles.circle4}>
-            <Text style={styles.innerLetter}>T</Text>
-          </View>
-          <View style={styles.circle5}>
-            <Text style={styles.innerLetter}>F</Text>
-          </View>
+          <Days/>
           <TouchableOpacity onPress={() => navigation.navigate('qrCode')}>
             <ImageBackground source={blueImage} style={styles.AvarageImage}>
 
@@ -272,65 +259,6 @@ const styles = StyleSheet.create({
     width: 25,
     height: 23.44,
 
-  },
-  circle: {
-
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100 / 2,
-    backgroundColor: '#00BEBE',
-    marginLeft: 20,
-    marginTop: 10,
-  },
-  circle2: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100 / 2,
-    backgroundColor: '#308989',
-    marginLeft: 90,
-    marginTop: -45,
-  },
-  circle3: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100 / 2,
-    backgroundColor: '#308989',
-    marginLeft: 160,
-    marginTop: -45,
-  },
-  circle4: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100 / 2,
-    backgroundColor: '#308989',
-    marginLeft: 230,
-    marginTop: -45,
-  },
-  circle5: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100 / 2,
-    backgroundColor: '#308989',
-    marginLeft: 300,
-    marginTop: -45,
-  },
-  innerLetter: {
-    /* fontFamily: 'Encode Sans Condensed', */
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 24,
-    lineHeight: 30,
-    color: '#FFFFFF',
   },
   dayContainer: {
     paddingLeft: 11,
