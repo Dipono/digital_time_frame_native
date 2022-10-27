@@ -12,11 +12,11 @@ import Notification from './screens/Notification';
 import QRCode from './screens/QRCode';
 import HomePage from './screens/homePage';
 import Logs from './screens/Logs'
-import ClockIn from './screens/Clock'
+import ClockInPage from './screens/Clock'
 import AllowNotification from './screens/AllowNotification'
 import EditAccount from './screens/EditAccount'
-import { auth, db } from './data/firebase';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from './data/firebase';
+import { onAuthStateChanged } from "firebase/auth";
 
 import { useState, useEffect } from "react";
 
@@ -90,8 +90,8 @@ export default function App() {
               component={DefaultPassword}
             />
             <Stack.Screen
-              name="clockin"
-              component={ClockIn}
+              name="clock"
+              component={ClockInPage}
             />
             <Stack.Screen
               name="notification"

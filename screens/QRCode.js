@@ -111,8 +111,8 @@ function QRCode() {
         // get time
         const hours = date.getHours()
         const minutes = date.getMinutes()
-        let time = Timestamp.fromDate(new Date("December 10, 1815"));
-
+        let time = Timestamp.fromDate(new Date());
+        console.log(time)
         //get week number of the year
         var startDate = new Date(date.getFullYear(), 0, 1);
         var numberOfDays = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
@@ -151,7 +151,7 @@ function QRCode() {
             }).then(() => {
                 alert('Clock In')
                 navigation.navigate('homePage')
-                navi
+            
             }, (err) => {
                 console.log(err)
                 alert('Something went wrong')

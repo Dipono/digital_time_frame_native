@@ -1,6 +1,6 @@
 import React, { useState ,useEffect} from "react";
 import {
-  View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,TouchableOpacity
+  Alert, View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,TouchableOpacity,Modal,TextInput,Pressable
 } from 'react-native';
 import BottomNavTab from './bottomNavTab'
 import { useNavigation } from '@react-navigation/native';
@@ -24,9 +24,9 @@ export default function Home() {
  
     // const [photoURL, setPhotoURL] = useState(AccounIcon);
    //logOut
-    async function handleLogout(){
+    function handleLogout(){
         try{
-            await Logout()
+           Logout()
             navigation.navigate('login')
         
         }  catch{
@@ -44,6 +44,9 @@ export default function Home() {
      const userCollectionRef = collection(db, "users")
      const [id, setId] = useState("")
      const [userInfo, setUserinfo] = useState([])
+     //modal
+  
+
      //get user information to display on home page and or recipt
      useEffect(() => {
          const getUserInfo = async () => {
@@ -115,17 +118,59 @@ export default function Home() {
           <View style={styles.circle5}>
             <Text style={styles.innerLetter}>F</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('logs')}>
+          <TouchableOpacity onPress={() => navigation.navigate('qrCode')}>
             <ImageBackground source={blueImage} style={styles.AvarageImage}>
 
-              <Text style={styles.averageText}>Average attendance</Text>
-              <Text style={styles.AttendanceText}>50%</Text>
+              <Text style={styles.averageText}>ClocK</Text>
+              {/* <Text style={styles.AttendanceText}>50%</Text>
               <Text style={styles.monthText}>This month</Text>
-              <Image source={process} style={styles.avarageImage} />
+              <Image source={process} style={styles.avarageImage} /> */}
 
             </ImageBackground>
           </TouchableOpacity>
+          <View style={styles.bottomContainer}>
+        <Text>If you are on your way, please ignore until you are at the office or Click <Text style={styles.hereText} onPress={() => setModalVisible(true)}>here</Text>  for reporting your absence</Text>
+      </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      ><View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Please state why you are absent</Text>
 
+            <TextInput
+              underlineColorAndroid="transparent"
+              placeholder="Type something"
+              placeholderTextColor="grey"
+              numberOfLines={10}
+              multiline={true}
+              style={styles.input}
+
+            />
+            <View style={styles.uploadView}>
+              <Pressable
+                style={[styles.upload]}
+
+              >
+                <Text style={styles.uploadText}>upload proof</Text>
+              </Pressable>
+              <Text style={styles.documentText}>no document uploaded</Text>
+
+            </View>
+            <Pressable
+              style={styles.send}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Send</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
           {/* schedule */}
 
 
@@ -178,7 +223,7 @@ export default function Home() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <SafeAreaView><BottomNavTab /></SafeAreaView>
+      
     </View>
   );
 };
@@ -364,8 +409,8 @@ const styles = StyleSheet.create({
     /* fontFamily: 'Emblema One', */
     fontStyle: 'normal',
     fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 14,
+    fontSize: 50,
+    lineHeight: 100,
     color: '#FFFFFF',
   },
   AttendanceText: {
@@ -470,5 +515,98 @@ const styles = StyleSheet.create({
     left: 200,
     top: -80,
 
-  }
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+
+      width: 343,
+      height: 354,
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      },
+      input: {
+          width: 220,
+          height: 87,
+          backgroundColor: '#C4BFBF',
+        },
+        upload: {
+          marginLeft: -25,
+          marginTop: 10,
+          backgroundColor: '#C4BFBF',
+          alignSelf: 'flex-start',
+          borderRadius: 10,
+          width: 86,
+          height: 18,
+          alignItems: 'center',
+      
+        },
+        uploadText: {
+          marginTop: 1,
+          fontStyle: 'normal',
+          fontWeight: '400',
+          fontSize: 10,
+          lineHeight: 12,
+          color: '#000000',
+        },
+      
+        documentText: {
+          marginTop: -11,
+          marginBottom: 20,
+          marginLeft: 63,
+          fontStyle: 'normal',
+          fontWeight: '400',
+          fontSize: 8,
+          lineHeight: 6,
+          color: '#000000',
+        },
+        send: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 209,
+          height: 29,
+          backgroundColor: '#308989',
+          borderRadius: 10,
+        },
+        textStyle: {
+          fontStyle: 'normal',
+          fontWeight: '400',
+          fontSize: 24,
+          lineHeight: 29,
+          color: 'white'
+        },
+        scan: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 209,
+          height: 29,
+          backgroundColor: '#308989',
+          borderRadius: 10,
+      
+        },
+        txt: {
+          marginTop: 50,
+        },
+        txt2: {
+          fontWeight: "bold",
+        }
 });
