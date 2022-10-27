@@ -35,7 +35,7 @@ export default function EditAccount() {
    const [updateName, setUpdateName] = useState("")
    const [updateSurname, setUpdateSurname] = useState("")
    const [location, setLocation] = useState("")
-   const userCollectionRef = collection(db, "profileDB")
+   const userCollectionRef = collection(db, "users")
    const [id, setId] = useState("")
    const [userInfo, setUserinfo] = useState([])
    //get user information to display on home page and or recipt
@@ -59,7 +59,7 @@ export default function EditAccount() {
    })
    //Update user information
    async function updateUserProfile() {
-    const userDocuments = doc(db, 'profileDB', id)
+    const userDocuments = doc(db, 'users', id)
 
     const newFlieds = { Name: updateName, Surname: updateSurname, PhoneNumber: updateNumber}
 
@@ -83,61 +83,7 @@ async function resetPassword(){
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.modalText}>Current Password</Text>
-              <TextInput
-                style={styles.modalInput}
-                placeholdeTextColor={"rgba(255,255,255,0.7)"}
-                underlineColorAndroid="transparent"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.modalText}>New Password</Text>
-              <TextInput
-                style={styles.modalInput}
-                placeholdeTextColor={"rgba(255,255,255,0.7)"}
-                underlineColorAndroid="transparent"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.modalText}>Confirm Password</Text>
-          
-              <TextInput
-                style={styles.modalInput}
-                placeholdeTextColor={"rgba(255,255,255,0.7)"}
-                underlineColorAndroid="transparent"
-                onChangeText={(event) => setNewPassword(event)} 
-              />
-            </View>
-            <Pressable
-              style={styles.eButton}
-              onPress={() => setModalVisible(!modalVisible)}
-
-            >
-              <Text style={styles.eButtonText}>close</Text>
-            </Pressable>
-            <Pressable
-              style={styles.eButton}
-              onPress={changePassword}
-
-            >
-              <Text style={styles.eButtonText}>Save</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal> */}
-      
+     
       <View style={styles.headingView}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Image source={backIcon} style={styles.backIcon} />

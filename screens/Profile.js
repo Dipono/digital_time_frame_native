@@ -24,7 +24,7 @@ const Profile = () => {
       const [name, setName] = useState("")
       const [surname, setSurname] = useState("")
       const [location, setLocation] = useState("")
-      const userCollectionRef = collection(db, "profileDB")
+      const userCollectionRef = collection(db, "users")
       const [id, setId] = useState("")
       const [userInfo, setUserinfo] = useState([])
       //get user information to display on home page and or recipt
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
 
     },
     name_surname: {
-        width: 154,
+        width: 220,
         height: 26,
         /*  fontFamily: 'Ebrima', */
         fontStyle: 'normal',
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
 
     },
     emailAdress: {
-        width: 200,
+        width: 230,
         height: 20,
         /* fontFamily: 'Ebrima', */
         fontStyle: 'normal',
