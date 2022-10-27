@@ -8,7 +8,13 @@ export default function ClockInPage() {
     const [modalVisible, setModalVisible] = useState(false);
     return (
         <View style={styles.container}>
-             <View>
+            <View style={styles.topContainer}>
+                <Text>hello world</Text>
+            </View>
+            <View style={styles.bottomContainer}>
+
+            </View>
+            {/* <View>
                 <View style={styles.centeredView}>
                     <Modal
                         animationType="slide"
@@ -57,7 +63,7 @@ export default function ClockInPage() {
                         <Text style={styles.textStyle}>Scan</Text>
                     </TouchableOpacity>
                 </View>
-            </View> 
+            </View>  */}
         </View>
     );
 };
@@ -65,9 +71,14 @@ export default function ClockInPage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#C4BFBF',
         alignItems: 'center',
         justifyContent: 'center',
+        display: 'flex',
+    },
+    topContainer: {
+        flex: 3,
+        background: 'green',
+        width: '100%'
     },
     centeredView: {
         flex: 1,

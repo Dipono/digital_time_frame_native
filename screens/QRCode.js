@@ -2,16 +2,22 @@ import { Text, View, StyleSheet, Button, TouchableOpacity, Modal } from 'react-n
 //import { RNQRCodeScannerProps, RNQRCodeScannerState  } from 'react-native-qrcode-scanner'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../data/firebase'
-import { doc, updateDoc, collection, addDoc, getDocs } from 'firebase/firestore';
+import { doc, updateDoc, collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
 function QRCode() {
+    const navigation = useNavigation()
+
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [ClockOutPopUp, setClockOutPopUp] = useState(false);
     const [AttendId, setAttendId] = useState('');
-    const email = auth.currentUser.email
+    const uid = auth.currentUser.uid
 
     const refCollectAttendance = collection(db, 'Attendance')
+    const refCollectWeeklyAverage = collection(db, 'WeeklyAverage')
+    const refCollectUsers = collection(db, 'users')
+
 
     useEffect(() => {
         const getBarCodeScannerPermissions = async () => {
@@ -41,6 +47,52 @@ function QRCode() {
             })
     }
 
+    function setWeeklyAverage(currentDate, weekNo) {
+        getDocs(refCollectUsers).then((response) => {
+            var users = response.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            var totalUsers = users.length
+            var getDayNumber = 0
+            getDocs(refCollectWeeklyAverage).then((respond) => {
+                var weekly = respond.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+                for (var count = 0; count < weekly.length; count++) {
+                    if (weekly.date === currentDate) {
+                        getDayNumber += 1
+                    }
+                }
+                console.log(getDayNumber)
+                if (getDayNumber > 0) {
+                    console.log('Yes')
+                }
+                else {
+
+                    addDoc(refCollectWeeklyAverage, {
+                        date: currentDate,
+                        weekNumber: weekNo,
+                        averageDay: (1 / totalUsers) * 100,
+                        notAttent: ((totalUsers - 1) / totalUsers) * 100,
+                        //day:
+
+                    }, () => {
+                        console.log('added 1')
+                    }, (err) => {
+                        console.log(err)
+                        alert('Something went wrong')
+                    })
+                }
+
+            }, (err) => {
+                console.log(err)
+                alert('Something went wrong')
+            })
+
+            //var average = ()
+        },
+            (err) => {
+                console.log(err)
+                alert('Something went wrong')
+            })
+    }
+
     const handleBarCodeScanned = async ({ data }) => {
         setScanned(true);
         //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
@@ -59,7 +111,7 @@ function QRCode() {
         // get time
         const hours = date.getHours()
         const minutes = date.getMinutes()
-        let time = hours + ':' + minutes
+        let time = Timestamp.fromDate(new Date("December 10, 1815"));
 
         //get week number of the year
         var startDate = new Date(date.getFullYear(), 0, 1);
@@ -79,7 +131,7 @@ function QRCode() {
         var clockin = '';
 
         for (var countAtt = 0; countAtt < allAttendance.length; countAtt++) {
-            if (allAttendance[countAtt].email === email && allAttendance[countAtt].date === fullDate) {
+            if (allAttendance[countAtt].uid === uid && allAttendance[countAtt].date === fullDate) {
                 currentId = allAttendance[countAtt].id
                 clockout = allAttendance[countAtt].clockOut
                 currentDate = allAttendance[countAtt].date
@@ -92,11 +144,14 @@ function QRCode() {
         var onehour = getHour + ':' + getMinutes
         //if (currentDate === fullDate && time < onehour) return alert('You just clock in')
 
+        //setWeeklyAverage(fullDate, weekNumber)
         if (currentDate !== fullDate) {
             addDoc(refCollectAttendance, {
-                email: email, date: fullDate, clockIn: time, clockOut: '', attend: attend, weekNumber: weekNumber
+                clockIn: time, uid: uid, attend: attend, weekNumber: weekNumber
             }).then(() => {
                 alert('Clock In')
+                navigation.navigate('homePage')
+                navi
             }, (err) => {
                 console.log(err)
                 alert('Something went wrong')
@@ -107,19 +162,6 @@ function QRCode() {
 
             if (clockout !== '') return alert('You have already clock out')
             setClockOutPopUp(true)
-            /*const updateUserField = doc(refCollectAttendance, currentId)
-            updateDoc(updateUserField, {
-                clockOut: time
-            }).then(() => {
-                alert('Clock Out')
-                console.log('clock out')
-            },
-                (err) => {
-                    err
-                    alert('Something went wrong')
-                })
-                */
-
         }
 
 

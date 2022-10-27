@@ -28,9 +28,9 @@ function Home() {
 
     signInWithEmailAndPassword(auth, Email, Password)
       .then(() => {
-        return navigation.navigate('homePage')
+        //return navigation.navigate('homePage')
 
-        /*getDocs(userRef).then((respond) => {
+        getDocs(userRef).then((respond) => {
           var allUser = respond.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 
           for (var count = 0; count < allUser.length; count++) {
@@ -63,7 +63,7 @@ function Home() {
           (err) => {
             alert('Something went wrong')
             console.log(err)
-          })*/
+          })
 
       }, (error) => {
         console.log(error)

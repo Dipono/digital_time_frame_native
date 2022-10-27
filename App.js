@@ -15,65 +15,110 @@ import Logs from './screens/Logs'
 import ClockIn from './screens/Clock'
 import AllowNotification from './screens/AllowNotification'
 import EditAccount from './screens/EditAccount'
+import { auth, db } from './data/firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { useState, useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+
+  const [isUserLoggedIn, setUserLogIn] = useState(false);
+  // const auth = getAuth();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        setUserLogIn(true);
+        console.log(isUserLoggedIn, uid)
+        // ...
+      } else {
+        setUserLogIn(false);
+        // User is signed out
+        // ...
+      }
+    });
+    // auth.
+  });
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}>
-          {/* Screen Home Page */}
-          
-          <Stack.Screen
-          name="login"
-          component={Login}
-        />
-        {/* More Screens hereW */}
-        
-        <Stack.Screen
-          name="homePage"
-          component={HomePage}
-        />
-        <Stack.Screen
-          name="profile"
-          component={Profile}
-        />
-        <Stack.Screen
-          name="editAccount"
-          component={EditAccount}
-        />
-        <Stack.Screen
-          name="default_password"
-          component={DefaultPassword}
-        />
-       <Stack.Screen
-          name="clockin"
-          component={ClockIn}
-        />
-        <Stack.Screen
-          name="notification"
-          component={Notification}
-        />
-        <Stack.Screen
-          name="allowNotification"
-          component={AllowNotification}
-        />
-        <Stack.Screen
-          name="qrCode"
-          component={QRCode}
-        />
-        <Stack.Screen
-          name="logs"
-          component={Logs}
-        />
-        <Stack.Screen
-          name="updateProfile"
-          component={UpdateProfile}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      {!isUserLoggedIn ?
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false
+            }}>
+            {/* Screen Home Page */}
+
+            <Stack.Screen
+              name="login"
+              component={Login}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+        :
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false
+            }}>
+            {/* Screen Home Page */}
+
+            {/* <Stack.Screen
+              name="login"
+              component={Login}
+            /> */}
+            {/* More Screens hereW */}
+
+            <Stack.Screen
+              name="homePage"
+              component={HomePage}
+            />
+            <Stack.Screen
+              name="profile"
+              component={Profile}
+            />
+            <Stack.Screen
+              name="editAccount"
+              component={EditAccount}
+            />
+            <Stack.Screen
+              name="default_password"
+              component={DefaultPassword}
+            />
+            <Stack.Screen
+              name="clockin"
+              component={ClockIn}
+            />
+            <Stack.Screen
+              name="notification"
+              component={Notification}
+            />
+            <Stack.Screen
+              name="allowNotification"
+              component={AllowNotification}
+            />
+            <Stack.Screen
+              name="qrCode"
+              component={QRCode}
+            />
+            <Stack.Screen
+              name="logs"
+              component={Logs}
+            />
+            <Stack.Screen
+              name="updateProfile"
+              component={UpdateProfile}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      }
+
+    </>
+
   );
 }
 
