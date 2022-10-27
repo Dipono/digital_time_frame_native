@@ -137,7 +137,7 @@ function Notification() {
             </View>
             {(CountNotifications === 0) && (emptyNotification)}
             {CountNotifications !== 0 && (AllNotifications)}
-            <SafeAreaView><BottomNavTab /></SafeAreaView>
+            <SafeAreaView>{/* <BottomNavTab /> */}</SafeAreaView>
 
         </View>
 

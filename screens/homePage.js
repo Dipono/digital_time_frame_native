@@ -125,6 +125,7 @@ export default function Home() {
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
+          
         }}
       ><View style={styles.centeredView}>
           <View style={styles.modalView}>

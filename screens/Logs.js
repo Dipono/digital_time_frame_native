@@ -5,7 +5,7 @@ import React from 'react'
 
 //
 
-import BottomNavTab from './bottomNavTab'
+/* import BottomNavTab from './bottomNavTab' */
 const backImg = require('../assets/image/back.png')
 
 import DonutChart from "./DonutChart"
@@ -52,15 +52,15 @@ export default function Logs() {
       <View style={styles.average}>
 
 
-        <Text style={styles.averageText}>Average attendence</Text>
+        {/* <Text style={styles.averageText}>Average attendence</Text> */}
 
 
 
         <View style={{ flexDirection: "row" }}>
 
-          <DonutChart />
+          {/* <DonutChart /> */}
 
-          <View >
+          {/* <View >
 
             <View style={styles.pres}>
               <View style={styles.circle} />
@@ -74,7 +74,7 @@ export default function Logs() {
               <Text>absent</Text>
             </View>
 
-          </View>
+          </View> */}
 
 
         </View>
@@ -101,7 +101,7 @@ export default function Logs() {
 
       </ScrollView>
 
-      <BottomNavTab />
+    {/*   <BottomNavTab /> */}
     </SafeAreaView>
 
 
