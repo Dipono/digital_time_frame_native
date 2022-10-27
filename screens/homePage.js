@@ -116,7 +116,7 @@ export default function Home() {
             </ImageBackground>
           </TouchableOpacity>
           <View style={styles.bottomContainer}>
-        <Text>If you are on your way, please ignore until you are at the office or Click <Text style={styles.hereText} onPress={() => setModalVisible(true)}>here</Text>  for reporting your absence</Text>
+        <Text style={{marginLeft:25,marginTop:15}}>If you are on your way, please ignore until you are at the office or Click <Text style={styles.hereText} onPress={() => setModalVisible(true)}>here</Text>  for reporting your absence</Text>
       </View>
       <Modal
         animationType="slide"
@@ -161,7 +161,7 @@ export default function Home() {
           {/* schedule */}
 
 
-          <View style={styles.scheduleWrapper}>
+       {/*    <View style={styles.scheduleWrapper}>
             <Text style={styles.scheduleTitle}>weekly schedule</Text>
             <View style={styles.scheduleWrapper}>
               <FlatList
@@ -171,7 +171,7 @@ export default function Home() {
                 horizontal={true}
               />
             </View>
-          </View>
+          </View> */}
 
           {/*profile*/}
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
