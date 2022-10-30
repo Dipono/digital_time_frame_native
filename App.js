@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import QRCode from './screens/QRCode'
+import Upload from './screens/Upload'
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -16,8 +16,8 @@ export default function App() {
         }}>
           {/* Screen Home Page */}
         <Stack.Screen
-          name="qrcode"
-          component={QRCode}
+          name="upload"
+          component={Upload}
         />
         {/* More Screens hereW */}
       </Stack.Navigator>
