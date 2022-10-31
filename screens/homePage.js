@@ -1,78 +1,238 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Alert, View, Text, StyleSheet, Image, FlatList, ScrollView, ImageBackground,TouchableOpacity,Modal,TextInput,Pressable
-} from 'react-native';
-import BottomNavTab from './bottomNavTab'
-import { useNavigation } from '@react-navigation/native';
-import profile from '../assets/image/profile.jpg';
-import daysData from '../data/daysData';
-import blueImage from '../assets/image/abstract.jpg';
-import process from '../assets/image/colourProceesBar.png';
-import orangeImage from '../assets/image/watercolor-g85fa52325-1920.jpg';
-import redImage from '../assets/image/the-background-g5bc2e4f32-1280.png';
-import logout from '../assets/image/logout.png';
-import greenImage from '../assets/image/light-green-low-poly-crystal-background-polygon-design-pattern-environment-green-low-poly-illustration-low-polygon-background-free-vector.webp'
+  Alert,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ScrollView,
+  ImageBackground,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  Pressable,
+} from "react-native";
+import BottomNavTab from "./bottomNavTab";
+import { useNavigation } from "@react-navigation/native";
+import profile from "../assets/image/profile.jpg";
+import daysData from "../data/daysData";
+import blueImage from "../assets/image/abstract.jpg";
+import process from "../assets/image/colourProceesBar.png";
+import orangeImage from "../assets/image/watercolor-g85fa52325-1920.jpg";
+import redImage from "../assets/image/the-background-g5bc2e4f32-1280.png";
+import logout from "../assets/image/logout.png";
+import greenImage from "../assets/image/light-green-low-poly-crystal-background-polygon-design-pattern-environment-green-low-poly-illustration-low-polygon-background-free-vector.webp";
 // import { TouchableOpacity } from "react-native";
 import Days from "./Days";
+import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { auth,Logout,db} from '../data/firebase';
-import { collection, getDocs, doc, setDoc, getDoc, deleteDoc, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
+import { auth, Logout, db, storage } from "../data/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"; //access the storage database
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+  CollectionReference,
+} from "firebase/firestore";
 // import AccounIcon from '../assets/image/account.png'
 export default function Home() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  // import { db } from '../firebase'
- 
-    // const [photoURL, setPhotoURL] = useState(AccounIcon);
-   //logOut
-    function handleLogout(){
-        try{
-           Logout()
-            navigation.navigate('login')
-        
-        }  catch{
-            alert("Error!");
-        }
-      
-    }
-     // Storing User Data
-     const [userDoc, setUserDoc] = useState(null)
-     // Update Text
-     const [number, setPhoneNumber] = useState("")
-     const [name, setName] = useState("")
-     const [surname, setSurname] = useState("")
-     const [location, setLocation] = useState("")
-     const userCollectionRef = collection(db, "users")
-     const [id, setId] = useState("")
-     const [userInfo, setUserinfo] = useState([])
-     //modal
-  
+  const [image, setImage] = useState(null);
+  const [DocName, setDocName]= useState('no document uploaded')
+  const [Massage, setMassage]= useState('')
 
-     //get user information to display on home page and or recipt
-     useEffect(() => {
-         const getUserInfo = async () => {
-             const data = await getDocs(userCollectionRef);
-             setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            //  console.log(userInfo[0].phoneNumber)
-             for (var i = 0; i < userInfo.length; i++) {
-                 if (userInfo[i].Email === auth.currentUser.email) {
-                     setPhoneNumber(userInfo[i].PhoneNumber)
-                     setName(userInfo[i].Name)
-                     setLocation(userInfo[i].Location)
-                     setSurname(userInfo[i].Surname)
-                     setId(userInfo[i].id)
-                     return;
-                 }
-             }
-         }
-         getUserInfo()
-     })
+  const refCollectAttendance = collection(db, "Attendance");
+  const refCollectUsers = collection(db, "users");
+
+  // general API function of image picker
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setImage(result);
+    }
     
+  };
+
+   // declare an overall function for the image upload
+   const uploadImage = async () => {
+
+    const date = new Date();
+    // get full date
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const year = date.getFullYear(); // get a year
+    const month = months[date.getMonth()]; // get month
+    const day = ('0' +date.getDate()).slice(-2);
+    let fullDate = day + "-" + month + "-" + year;
+    
+     //get week number of the year
+     var startDate = new Date(date.getFullYear(), 0, 1);
+     var numberOfDays = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+     var weekNumber = Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
+    let attend = "No";
+
+    const dataAttend = await getDocs(refCollectAttendance);
+    var allAttendance = dataAttend.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    var currentDate = "";
+
+    for (var countAtt = 0; countAtt < allAttendance.length; countAtt++) {
+      if (
+        allAttendance[countAtt].email === auth.currentUser.email &&
+        allAttendance[countAtt].date === fullDate
+      ) {
+        currentDate = allAttendance[countAtt].date;
+        attend = allAttendance[countAtt].attend;
+      }
+    }
+
+    if (currentDate === fullDate && attend === 'Yes') {
+      alert('You clocked in')
+      return setModalVisible(false)
+    }
+
+    // lets check the image via condition
+    if (image !== null) {
+      let filename = image.uri.split("/").pop();
+      let filetype = filename.split(".").pop();
+      let uri = image.uri;
+      // lets add a try loop to keep checking everything is in order
+
+      try {
+        // lets define some variables
+        const user = auth.currentUser;
+        const response = await fetch(uri);
+        const file = await response.blob();
+        var imageName = image.uri.substr(image.uri.lastIndexOf("/") + 1);
+        const storageRef = ref(storage, `/assets/${imageName}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const prog = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            //setprogressImage(prog);
+          },
+          (err) => console.log(err),
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              console.log(fullDate)
+              console.log(auth.currentUser.email)
+              console.log(attend)
+              console.log(weekNumber)
+              console.log(url)
+
+              if(currentDate !== fullDate){
+                addDoc(refCollectAttendance, {
+                  date: fullDate,
+                  email: auth.currentUser.email,
+                  attend: attend,
+                  weekNumber: weekNumber,
+                  image:url,
+                  message:Massage
+                }).then(
+                  () => {
+                    alert("Added to record");
+                return setModalVisible(false)
+                  },
+                  (err) => {
+                    console.log(err);
+                    alert("Something went wrong");
+                  }
+                );
+              
+              }
+              setModalVisible(false)
+            });
+          }
+        );
+      } catch (error) {
+        console.log(error);
+        alert("Please Try Again");
+      }
+    } else {
+      setLoading(false);
+      if (image === null) {
+        alert("Image Required");
+      }
+    }
+  };
+
+  //logOut
+  function handleLogout() {
+    try {
+      Logout();
+      navigation.navigate("login");
+    } catch {
+      alert("Error!");
+    }
+  }
+  // Storing User Data
+  const [userDoc, setUserDoc] = useState(null);
+  // Update Text
+  const [number, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [location, setLocation] = useState("");
+  const userCollectionRef = collection(db, "users");
+  const [id, setId] = useState("");
+  const [userInfo, setUserinfo] = useState([]);
+  //modal
+
+  //get user information to display on home page and or recipt
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const data = await getDocs(userCollectionRef);
+      setUserinfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      //  console.log(userInfo[0].phoneNumber)
+      for (var i = 0; i < userInfo.length; i++) {
+        if (userInfo[i].Email === auth.currentUser.email) {
+          setPhoneNumber(userInfo[i].PhoneNumber);
+          setName(userInfo[i].Name);
+          setLocation(userInfo[i].Location);
+          setSurname(userInfo[i].Surname);
+          setId(userInfo[i].id);
+          return;
+        }
+      }
+    };
+    getUserInfo();
+  });
+/*
   const renderDays = ({ item }) => {
     return (
       <View style={styles.dayContainer}>
         <ImageBackground source={item.image} style={styles.image}>
-          {/* <Image source={item.image} style={styles.categoryItemImage} /> */}
+          // <Image source={item.image} style={styles.categoryItemImage} /> 
           <Text style={styles.dayText}>{item.title}</Text>
           <Text style={styles.timeText}>Time:{item.time}</Text>
           <Text style={styles.timeText}>{item.task}</Text>
@@ -80,89 +240,95 @@ export default function Home() {
       </View>
     );
   };
+  */
   return (
     <View style={styles.container}>
       <View style={styles.user}>
-        <Image
-          style={styles.profilep}
-          source={profile}
-        />
+        <Image style={styles.profilep} source={profile} />
         <Text style={styles.welcomeText}>Welcome to DTF </Text>
-        <Text style={styles.name}>{name} {surname} </Text>
+        <Text style={styles.name}>
+          {name} {surname}{" "}
+        </Text>
         <TouchableOpacity onPress={handleLogout}>
           <Image source={logout} style={styles.logOut} />
         </TouchableOpacity>
-
       </View>
       <View
         style={{
-          borderBottomColor: 'rgba(107, 107, 107)',
+          borderBottomColor: "rgba(107, 107, 107)",
           borderBottomWidth: StyleSheet.hairlineWidth,
           marginTop: 0,
-
         }}
       />
       <ScrollView>
-        <View >
-          <Days/>
-          <TouchableOpacity onPress={() => navigation.navigate('qrCode')}>
+        <View>
+          <Days />
+          <View style={styles.topContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate("qrCode")}>
             <ImageBackground source={blueImage} style={styles.AvarageImage}>
-
-              <Text style={styles.averageText}>ClocK</Text>
+              <Text style={styles.averageText}>Clock</Text>
               {/* <Text style={styles.AttendanceText}>50%</Text>
               <Text style={styles.monthText}>This month</Text>
               <Image source={process} style={styles.avarageImage} /> */}
-
             </ImageBackground>
           </TouchableOpacity>
-          <View style={styles.bottomContainer}>
-        <Text style={{marginLeft:25,marginTop:15}}>If you are on your way, please ignore until you are at the office or Click <Text style={styles.hereText} onPress={() => setModalVisible(true)}>here</Text>  for reporting your absence</Text>
-      </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-          
-        }}
-      ><View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Please state why you are absent</Text>
-
-            <TextInput
-              underlineColorAndroid="transparent"
-              placeholder="Type something"
-              placeholderTextColor="grey"
-              numberOfLines={10}
-              multiline={true}
-              style={styles.input}
-
-            />
-            <View style={styles.uploadView}>
-              <Pressable
-                style={[styles.upload]}
-
-              >
-                <Text style={styles.uploadText}>upload proof</Text>
-              </Pressable>
-              <Text style={styles.documentText}>no document uploaded</Text>
-
-            </View>
-            <Pressable
-              style={styles.send}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Send</Text>
-            </Pressable>
           </View>
-        </View>
-      </Modal>
+          
+          <View style={styles.bottomContainer}>
+            <Text style={{ marginLeft: 25, marginTop: 15 }}>
+              If you are on your way, please ignore until you are at the office
+              or Click{" "}
+              <Text
+                style={styles.hereText}
+                onPress={() => setModalVisible(true)}
+              >
+                here
+              </Text>{" "}
+              for reporting your absence
+            </Text>
+          </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Please state why you are absent
+                </Text>
+
+                <TextInput
+                onChangeText={(event) => setMassage(event)} 
+                  underlineColorAndroid="transparent"
+                  placeholder="Type something"
+                  placeholderTextColor="grey"
+                  numberOfLines={10}
+                  multiline={true}
+                  style={styles.input}
+                />
+                <View style={styles.uploadView}>
+                  <Pressable style={[styles.upload]} onPress={pickImage}>
+                    <Text style={styles.uploadText}>upload proof</Text>
+                  </Pressable>
+                  <Text style={styles.documentText}>{DocName}</Text>
+                </View>
+                <Pressable
+                  style={styles.send}
+                  onPress={uploadImage}
+                >
+                  <Text style={styles.textStyle}>Send</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
           {/* schedule */}
 
-
-       {/*    <View style={styles.scheduleWrapper}>
+          {/*    <View style={styles.scheduleWrapper}>
             <Text style={styles.scheduleTitle}>weekly schedule</Text>
             <View style={styles.scheduleWrapper}>
               <FlatList
@@ -175,11 +341,15 @@ export default function Home() {
           </View> */}
 
           {/*profile*/}
-          <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-            <ImageBackground source={orangeImage} style={styles.profile} >
+          <TouchableOpacity onPress={() => navigation.navigate("profile")}>
+            <ImageBackground source={orangeImage} style={styles.profile}>
               <Text style={styles.proflieText}>Profile</Text>
-              <Text style={styles.nameText}>name:{name} {surname}</Text>
-              <Text style={styles.emailText}>Email:{auth.currentUser?.email}</Text>
+              <Text style={styles.nameText}>
+                name:{name} {surname}
+              </Text>
+              <Text style={styles.emailText}>
+                Email:{auth.currentUser?.email}
+              </Text>
               <Text style={styles.contactText}>contact:{number}</Text>
               <Text style={styles.moreText}>more..</Text>
               <Image source={profile} style={styles.profileImage} />
@@ -187,7 +357,7 @@ export default function Home() {
           </TouchableOpacity>
 
           {/*Notifications*/}
-          <TouchableOpacity onPress={() => navigation.navigate('notification')}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("notification")}>
             <ImageBackground source={redImage} style={styles.profile}>
               <Text style={styles.proflieText}>Notifications</Text>
               <Text style={styles.nameText}>Not with radius </Text>
@@ -196,9 +366,10 @@ export default function Home() {
               <Text style={styles.contactText}>schedule updated</Text>
               <Text style={styles.moreText}>more..</Text>
             </ImageBackground>
-          </TouchableOpacity>
-          {/*Notifications*/}
-          <TouchableOpacity onPress={() => navigation.navigate('logs')}>
+          </TouchableOpacity> */}
+
+          {/*Logs*/}
+          {/* <TouchableOpacity onPress={() => navigation.navigate("logs")}>
             <ImageBackground source={greenImage} style={styles.profile}>
               <Text style={styles.proflieText}>Logs</Text>
               <Text style={styles.nameText}>Monday : Present</Text>
@@ -208,25 +379,26 @@ export default function Home() {
               <Text style={styles.contactText}>Friday : absent</Text>
               <Text style={styles.moreText}>more..</Text>
             </ImageBackground>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
-      
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    width: '100%',
-
+    backgroundColor: "#fff",
+    width: "100%",
+  },
+  topContainer: {
+    textAlign:'center'
   },
   user: {
     marginTop: 10,
     height: 80,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   profilep: {
     borderRadius: 100,
@@ -239,27 +411,26 @@ const styles = StyleSheet.create({
     marginTop: -40,
     marginLeft: 80,
     /*  fontFamily: 'Emblema One', */
-    fontStyle: 'normal',
+    fontStyle: "normal",
     // fontWeight: '400',
     fontSize: 12,
     lineHeight: 14,
-    color: '#000000',
+    color: "#000000",
   },
   name: {
     marginLeft: 80,
     /* fontFamily: 'Emblema One', */
-    fontStyle: 'normal',
+    fontStyle: "normal",
     // fontWeight: '400',
     fontSize: 12,
     lineHeight: 14,
-    color: '#000000',
+    color: "#000000",
   },
   logOut: {
     marginLeft: 330,
     marginTop: -25,
     width: 25,
     height: 23.44,
-
   },
   dayContainer: {
     paddingLeft: 11,
@@ -271,11 +442,11 @@ const styles = StyleSheet.create({
   image: {
     paddingTop: 15,
     paddingLeft: 10,
-    filter: 'blur(4)',
+    filter: "blur(4)",
     borderRadius: 14,
     width: 126,
     height: 148,
-    overflow: 'hidden',
+    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -287,39 +458,39 @@ const styles = StyleSheet.create({
   },
   dayText: {
     /* fontFamily: 'Ebrima', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 10,
     lineHeight: 20,
 
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   timeText: {
     /*  fontFamily: 'Inter', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 8,
     lineHeight: 10,
 
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   scheduleTitle: {
     marginLeft: 35,
     /*  fontFamily: 'Inter', */
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontWeight: " 10",
     fontSize: 13,
     lineHeight: 16,
     margin: 10,
-    color: '#000000',
+    color: "#000000",
   },
   AvarageImage: {
-    overflow: 'hidden',
+    overflow: "hidden",
     marginTop: 20,
     padding: 10,
     width: 317,
     height: 106,
-    filter: 'blur(1)',
+    filter: "blur(1)",
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
     borderTopLeftRadius: 14,
@@ -336,28 +507,28 @@ const styles = StyleSheet.create({
   },
   averageText: {
     /* fontFamily: 'Emblema One', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 50,
     lineHeight: 100,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   AttendanceText: {
     /* fontFamily: 'Emblema One', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 40,
     lineHeight: 48,
     marginTop: 5,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   monthText: {
     /*  fontFamily: 'Encode Sans', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 12,
     lineHeight: 15,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
 
     opacity: 0.5,
   },
@@ -368,14 +539,13 @@ const styles = StyleSheet.create({
     top: -90,
   },
   profile: {
-
-    overflow: 'hidden',
+    overflow: "hidden",
     marginTop: 20,
     marginBottom: 15,
     padding: 10,
     width: 317,
     height: 106,
-    filter: 'blur(1)',
+    filter: "blur(1)",
     borderBottomLeftRadius: 14,
     borderBottomRightRadius: 14,
     borderTopLeftRadius: 14,
@@ -392,43 +562,43 @@ const styles = StyleSheet.create({
   },
   proflieText: {
     /* fontFamily: 'Emblema One', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 12,
     lineHeight: 14,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   emailText: {
     /* fontFamily: 'Inter', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 8,
     lineHeight: 10,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   nameText: {
     /*  fontFamily: 'Inter', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 8,
     lineHeight: 10,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   contactText: {
     /*  fontFamily: 'Inter', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 8,
     lineHeight: 10,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   moreText: {
     /* fontFamily: 'Encode Sans', */
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     fontSize: 12,
     lineHeight: 15,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     opacity: 0.5,
     marginTop: 30,
   },
@@ -438,12 +608,10 @@ const styles = StyleSheet.create({
     left: 200,
     top: -80,
     borderRadius: 100,
-
   },
   selectIcon: {
     left: 200,
     top: -80,
-
   },
   centeredView: {
     flex: 1,
@@ -452,90 +620,87 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-
-      width: 343,
-      height: 354,
-      margin: 20,
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5
+    width: 343,
+    height: 354,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      },
-      input: {
-          width: 220,
-          height: 87,
-          backgroundColor: '#C4BFBF',
-        },
-        upload: {
-          marginLeft: -25,
-          marginTop: 10,
-          backgroundColor: '#C4BFBF',
-          alignSelf: 'flex-start',
-          borderRadius: 10,
-          width: 86,
-          height: 18,
-          alignItems: 'center',
-      
-        },
-        uploadText: {
-          marginTop: 1,
-          fontStyle: 'normal',
-          fontWeight: '400',
-          fontSize: 10,
-          lineHeight: 12,
-          color: '#000000',
-        },
-      
-        documentText: {
-          marginTop: -11,
-          marginBottom: 20,
-          marginLeft: 63,
-          fontStyle: 'normal',
-          fontWeight: '400',
-          fontSize: 8,
-          lineHeight: 6,
-          color: '#000000',
-        },
-        send: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 209,
-          height: 29,
-          backgroundColor: '#308989',
-          borderRadius: 10,
-        },
-        textStyle: {
-          fontStyle: 'normal',
-          fontWeight: '400',
-          fontSize: 24,
-          lineHeight: 29,
-          color: 'white'
-        },
-        scan: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 209,
-          height: 29,
-          backgroundColor: '#308989',
-          borderRadius: 10,
-      
-        },
-        txt: {
-          marginTop: 50,
-        },
-        txt2: {
-          fontWeight: "bold",
-        }
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  input: {
+    width: 220,
+    height: 87,
+    backgroundColor: "#C4BFBF",
+  },
+  upload: {
+    marginLeft: -25,
+    marginTop: 10,
+    backgroundColor: "#C4BFBF",
+    alignSelf: "flex-start",
+    borderRadius: 10,
+    width: 86,
+    height: 18,
+    alignItems: "center",
+  },
+  uploadText: {
+    marginTop: 1,
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 10,
+    lineHeight: 12,
+    color: "#000000",
+  },
+
+  documentText: {
+    marginTop: -11,
+    marginBottom: 20,
+    marginLeft: 63,
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 8,
+    lineHeight: 6,
+    color: "#000000",
+  },
+  send: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 209,
+    height: 29,
+    backgroundColor: "#308989",
+    borderRadius: 10,
+  },
+  textStyle: {
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 24,
+    lineHeight: 29,
+    color: "white",
+  },
+  scan: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 209,
+    height: 29,
+    backgroundColor: "#308989",
+    borderRadius: 10,
+  },
+  txt: {
+    marginTop: 50,
+  },
+  txt2: {
+    fontWeight: "bold",
+  },
 });

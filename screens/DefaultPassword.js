@@ -14,7 +14,7 @@ export default function DefaultPassword() {
         if(newPassword === confirmPassword){
             updatePassword(auth.currentUser, newPassword).then(() => {
                 alert('Password changed')
-                navigation.navigate('allowNotification')
+                navigation.navigate('homePage')
               }).catch((error) => {
                 alert(error)
               });
