@@ -261,21 +261,19 @@ export default function Home() {
         }}
       />
       <ScrollView>
-        <View>
-          <Days />
-          <View style={styles.topContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("qrCode")}>
-            <ImageBackground source={blueImage} style={styles.AvarageImage}>
-              <Text style={styles.averageText}>Clock</Text>
+        <View style={styles.content}>
+          {/* <Days /> */}
+          <View style={styles.topContainer} onPress={() => navigation.navigate("qrCode")}>
+        <TouchableOpacity style={styles.buttonClock}><Text style={styles.btnText}>Clock in</Text></TouchableOpacity>
+
+             
               {/* <Text style={styles.AttendanceText}>50%</Text>
               <Text style={styles.monthText}>This month</Text>
               <Image source={process} style={styles.avarageImage} /> */}
-            </ImageBackground>
-          </TouchableOpacity>
           </View>
           
           <View style={styles.bottomContainer}>
-            <Text style={{ marginLeft: 25, marginTop: 15 }}>
+            <Text style={{ marginLeft: 25, marginTop: 15, fontSize:15 }}>
               If you are on your way, please ignore until you are at the office
               or Click{" "}
               <Text
@@ -341,7 +339,7 @@ export default function Home() {
           </View> */}
 
           {/*profile*/}
-          <TouchableOpacity onPress={() => navigation.navigate("profile")}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("profile")}>
             <ImageBackground source={orangeImage} style={styles.profile}>
               <Text style={styles.proflieText}>Profile</Text>
               <Text style={styles.nameText}>
@@ -354,7 +352,7 @@ export default function Home() {
               <Text style={styles.moreText}>more..</Text>
               <Image source={profile} style={styles.profileImage} />
             </ImageBackground>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/*Notifications*/}
           {/* <TouchableOpacity onPress={() => navigation.navigate("notification")}>
@@ -389,6 +387,85 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  user: {
+    marginTop: 10,
+    height: 80,
+    backgroundColor: "#fff",
+  },
+  profilep: {
+    borderRadius: 100,
+    width: 49,
+    height: 49,
+    marginTop: 20,
+    marginLeft: 20,
+  },
+  welcomeText: {
+    marginTop: -40,
+    marginLeft: 80,
+    //  fontFamily: 'Emblema One',
+    fontStyle: "normal",
+    // fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 14,
+    color: "#000000",
+  },
+  name: {
+    marginLeft: 80,
+    // fontFamily: 'Emblema One', 
+    fontStyle: "normal",
+    // fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 14,
+    color: "#000000",
+  },
+  logOut: {
+    marginLeft: 330,
+    marginTop: -25,
+    width: 25,
+    height: 23.44,
+  },
+  content:{
+    marginTop:150
+
+  },
+  topContainer: {
+    flex: 6,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomContainer: {
+    width: '100%',
+    padding: 10,
+  },
+  buttonClock: {
+    backgroundColor: '#faebd7',
+    width: 200,
+    height: 200,
+    borderRadius: 500,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+  },
+  bottomContainer:{
+    marginTop:50
+  },
+  btnText: {
+    fontSize: 25,
+    bold:'400'
+  },
+  hereText: {
+    fontWeight: 'bold'
+  }
+})
+/* 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
     backgroundColor: "#fff",
     width: "100%",
   },
@@ -410,7 +487,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     marginTop: -40,
     marginLeft: 80,
-    /*  fontFamily: 'Emblema One', */
+    //  fontFamily: 'Emblema One',
     fontStyle: "normal",
     // fontWeight: '400',
     fontSize: 12,
@@ -419,7 +496,7 @@ const styles = StyleSheet.create({
   },
   name: {
     marginLeft: 80,
-    /* fontFamily: 'Emblema One', */
+    // fontFamily: 'Emblema One', 
     fontStyle: "normal",
     // fontWeight: '400',
     fontSize: 12,
@@ -457,7 +534,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   dayText: {
-    /* fontFamily: 'Ebrima', */
+    // fontFamily: 'Ebrima', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 10,
@@ -466,7 +543,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   timeText: {
-    /*  fontFamily: 'Inter', */
+    //  fontFamily: 'Inter', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 8,
@@ -476,7 +553,7 @@ const styles = StyleSheet.create({
   },
   scheduleTitle: {
     marginLeft: 35,
-    /*  fontFamily: 'Inter', */
+    //  fontFamily: 'Inter', 
     fontStyle: "normal",
     fontWeight: " 10",
     fontSize: 13,
@@ -506,7 +583,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   averageText: {
-    /* fontFamily: 'Emblema One', */
+    // fontFamily: 'Emblema One', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 50,
@@ -514,7 +591,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   AttendanceText: {
-    /* fontFamily: 'Emblema One', */
+    // fontFamily: 'Emblema One', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 40,
@@ -523,7 +600,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   monthText: {
-    /*  fontFamily: 'Encode Sans', */
+    //  fontFamily: 'Encode Sans', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 12,
@@ -561,7 +638,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   proflieText: {
-    /* fontFamily: 'Emblema One', */
+    // fontFamily: 'Emblema One', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 12,
@@ -569,7 +646,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   emailText: {
-    /* fontFamily: 'Inter', */
+    // fontFamily: 'Inter',
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 8,
@@ -577,7 +654,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   nameText: {
-    /*  fontFamily: 'Inter', */
+    //  fontFamily: 'Inter', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 8,
@@ -585,7 +662,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   contactText: {
-    /*  fontFamily: 'Inter', */
+    //  fontFamily: 'Inter', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 8,
@@ -593,7 +670,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   moreText: {
-    /* fontFamily: 'Encode Sans', */
+    // fontFamily: 'Encode Sans', 
     fontStyle: "normal",
     fontWeight: "400",
     fontSize: 12,
@@ -704,3 +781,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+ */
