@@ -45,8 +45,8 @@ export default function Home() {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = useState(null);
-  const [DocName, setDocName]= useState('no document uploaded')
-  const [Massage, setMassage]= useState('')
+  const [DocName, setDocName] = useState('no document uploaded')
+  const [Massage, setMassage] = useState('')
 
   const refCollectAttendance = collection(db, "Attendance");
   const refCollectUsers = collection(db, "users");
@@ -62,11 +62,11 @@ export default function Home() {
     if (!result.cancelled) {
       setImage(result);
     }
-    
+
   };
 
-   // declare an overall function for the image upload
-   const uploadImage = async () => {
+  // declare an overall function for the image upload
+  const uploadImage = async () => {
 
     const date = new Date();
     // get full date
@@ -86,13 +86,13 @@ export default function Home() {
     ];
     const year = date.getFullYear(); // get a year
     const month = months[date.getMonth()]; // get month
-    const day = ('0' +date.getDate()).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
     let fullDate = day + "-" + month + "-" + year;
-    
-     //get week number of the year
-     var startDate = new Date(date.getFullYear(), 0, 1);
-     var numberOfDays = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-     var weekNumber = Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
+
+    //get week number of the year
+    var startDate = new Date(date.getFullYear(), 0, 1);
+    var numberOfDays = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
+    var weekNumber = Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
     let attend = "No";
 
     const dataAttend = await getDocs(refCollectAttendance);
@@ -151,25 +151,25 @@ export default function Home() {
               console.log(weekNumber)
               console.log(url)
 
-              if(currentDate !== fullDate){
+              if (currentDate !== fullDate) {
                 addDoc(refCollectAttendance, {
                   date: fullDate,
                   email: auth.currentUser.email,
                   attend: attend,
                   weekNumber: weekNumber,
-                  image:url,
-                  message:Massage
+                  image: url,
+                  message: Massage
                 }).then(
                   () => {
                     alert("Added to record");
-                return setModalVisible(false)
+                    return setModalVisible(false)
                   },
                   (err) => {
                     console.log(err);
                     alert("Something went wrong");
                   }
                 );
-              
+
               }
               setModalVisible(false)
             });
@@ -227,20 +227,20 @@ export default function Home() {
     };
     getUserInfo();
   });
-/*
-  const renderDays = ({ item }) => {
-    return (
-      <View style={styles.dayContainer}>
-        <ImageBackground source={item.image} style={styles.image}>
-          // <Image source={item.image} style={styles.categoryItemImage} /> 
-          <Text style={styles.dayText}>{item.title}</Text>
-          <Text style={styles.timeText}>Time:{item.time}</Text>
-          <Text style={styles.timeText}>{item.task}</Text>
-        </ImageBackground>
-      </View>
-    );
-  };
-  */
+  /*
+    const renderDays = ({ item }) => {
+      return (
+        <View style={styles.dayContainer}>
+          <ImageBackground source={item.image} style={styles.image}>
+            // <Image source={item.image} style={styles.categoryItemImage} /> 
+            <Text style={styles.dayText}>{item.title}</Text>
+            <Text style={styles.timeText}>Time:{item.time}</Text>
+            <Text style={styles.timeText}>{item.task}</Text>
+          </ImageBackground>
+        </View>
+      );
+    };
+    */
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -263,17 +263,19 @@ export default function Home() {
       <ScrollView>
         <View style={styles.content}>
           {/* <Days /> */}
-          <View style={styles.topContainer} onPress={() => navigation.navigate("qrCode")}>
-        <TouchableOpacity style={styles.buttonClock}><Text style={styles.btnText}>Clock in</Text></TouchableOpacity>
+          <View style={styles.topContainer} >
+            <TouchableOpacity style={styles.buttonClock} onPress={() => navigation.navigate("qrCode")}>
+              <Text style={styles.btnText}>Clock in</Text>
+            </TouchableOpacity>
 
-             
-              {/* <Text style={styles.AttendanceText}>50%</Text>
+
+            {/* <Text style={styles.AttendanceText}>50%</Text>
               <Text style={styles.monthText}>This month</Text>
               <Image source={process} style={styles.avarageImage} /> */}
           </View>
-          
+
           <View style={styles.bottomContainer}>
-            <Text style={{ marginLeft: 25, marginTop: 15, fontSize:15 }}>
+            <Text style={{ marginLeft: 25, marginTop: 15, fontSize: 15 }}>
               If you are on your way, please ignore until you are at the office
               or Click{" "}
               <Text
@@ -301,7 +303,7 @@ export default function Home() {
                 </Text>
 
                 <TextInput
-                onChangeText={(event) => setMassage(event)} 
+                  onChangeText={(event) => setMassage(event)}
                   underlineColorAndroid="transparent"
                   placeholder="Type something"
                   placeholderTextColor="grey"
@@ -427,8 +429,8 @@ const styles = StyleSheet.create({
     width: 25,
     height: 23.44,
   },
-  content:{
-    marginTop:150
+  content: {
+    marginTop: 150
 
   },
   topContainer: {
@@ -449,18 +451,94 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    
+
   },
-  bottomContainer:{
-    marginTop:50
+  bottomContainer: {
+    marginTop: 50
   },
   btnText: {
     fontSize: 25,
-    bold:'400'
+    bold: '400'
   },
   hereText: {
     fontWeight: 'bold'
-  }
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    width: 343,
+    height: 354,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  input: {
+    width: 220,
+    height: 87,
+    backgroundColor: "#C4BFBF",
+  },
+  upload: {
+    marginLeft: -25,
+    marginTop: 10,
+    backgroundColor: "#C4BFBF",
+    alignSelf: "flex-start",
+    borderRadius: 10,
+    width: 86,
+    height: 18,
+    alignItems: "center",
+  },
+  uploadText: {
+    marginTop: 1,
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 10,
+    lineHeight: 12,
+    color: "#000000",
+  },
+
+  documentText: {
+    marginTop: -11,
+    marginBottom: 20,
+    marginLeft: 63,
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 8,
+    lineHeight: 6,
+    color: "#000000",
+  },
+  send: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 209,
+    height: 29,
+    backgroundColor: "#308989",
+    borderRadius: 10,
+  },
+  textStyle: {
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: 24,
+    lineHeight: 29,
+    color: "white",
+  },
 })
 /* 
 const styles = StyleSheet.create({
